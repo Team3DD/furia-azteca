@@ -1,0 +1,83 @@
+---
+// src/components/sections/MundialesStrip.astro
+
+const ediciones = [
+  {
+    year: 'Rusia 2018',
+    title: 'La primera vez',
+    description: 'Primera participación organizada de aficionados mexicanos en una Copa del Mundo. El inicio del movimiento.',
+    href: '/mundiales/rusia-2018',
+    color: 'from-rojo/80',
+    badge: 'Historia',
+  },
+  {
+    year: 'Qatar 2022',
+    title: 'International Fans Cup',
+    description: 'Elegidos como el mejor torneo de fans del Mundial. Participación varonil y femenil. El punto más alto hasta ahora.',
+    href: '/mundiales/qatar-2022',
+    color: 'from-verde/80',
+    badge: 'Mejor torneo',
+  },
+  {
+    year: 'Mundial 2026',
+    title: 'La gran cita',
+    description: 'México, Estados Unidos y Canadá son sede. El movimiento se prepara para su edición más ambiciosa.',
+    href: '/mundiales/2026',
+    color: 'from-dorado/80',
+    badge: 'Próximamente',
+  },
+];
+---
+
+<section class="py-24 bg-hueso" aria-labelledby="mundiales-title">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div>
+        <p class="section-label mb-2">Nuestras ediciones</p>
+        <h2 id="mundiales-title" class="section-title text-carbon">
+          Tres mundiales.<br/>Una pasión.
+        </h2>
+      </div>
+      <a href="/historia" class="text-verde font-display text-sm uppercase tracking-widest hover:text-verde-dark transition-colors self-end">
+        Ver historia completa →
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {ediciones.map(({ year, title, description, href, color, badge }) => (
+        <a
+          href={href}
+          class="group relative overflow-hidden bg-carbon block aspect-[4/5] md:aspect-auto md:min-h-[420px]"
+          aria-label={`Ver ${year}: ${title}`}
+        >
+          <!-- Fondo con gradiente -->
+          <div class={`absolute inset-0 bg-gradient-to-t ${color} to-carbon/90 z-10`}></div>
+
+          <!-- Patrón -->
+          <div class="absolute inset-0 opacity-5 z-0"
+               style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 24px 24px;">
+          </div>
+
+          <!-- Contenido -->
+          <div class="relative z-20 h-full flex flex-col justify-end p-8">
+            <span class="inline-block font-display text-xs uppercase tracking-widest bg-dorado text-carbon px-2 py-1 mb-4 self-start">
+              {badge}
+            </span>
+            <p class="section-label mb-2">{year}</p>
+            <h3 class="font-display text-white text-2xl uppercase leading-tight mb-3 group-hover:text-dorado-light transition-colors">
+              {title}
+            </h3>
+            <p class="font-body text-white/50 text-sm leading-relaxed mb-6">
+              {description}
+            </p>
+            <span class="font-display text-xs uppercase tracking-widest text-dorado group-hover:gap-3 flex items-center gap-2 transition-all">
+              Explorar <span class="transition-transform group-hover:translate-x-1">→</span>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,129 @@
+---
+// src/components/site/Footer.astro
+import navData from '../../data/nav.json';
+import type { NavData } from '../../lib/types';
+
+const { brand, footerLinks } = navData as NavData;
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  { label: 'Instagram', href: 'https://instagram.com/furiaazteca', abbr: 'IG' },
+  { label: 'Facebook',  href: 'https://facebook.com/furiaazteca',  abbr: 'FB' },
+  { label: 'Twitter/X', href: 'https://twitter.com/furiaazteca',   abbr: 'X'  },
+  { label: 'YouTube',   href: 'https://youtube.com/furiaazteca',   abbr: 'YT' },
+];
+
+// Capitaliza la primera letra de la clave para usarla como título de sección
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// Grupos que van en las columnas (todo excepto 'legal', que va en el bottom bar)
+const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'legal') as [string, { label: string; href: string }[]][];
+---
+
+<footer class="bg-carbon border-t border-white/10">
+
+  <!-- Franja tricolor -->
+  <div
+    class="h-[3px]"
+    style="background: linear-gradient(90deg, var(--color-verde) 0%, var(--color-dorado) 50%, var(--color-rojo) 100%)"
+    aria-hidden="true"
+  />
+
+  <!-- Cuerpo -->
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+
+      <!-- Columna identidad -->
+      <div class="lg:col-span-2">
+        <a href={brand.href} class="flex items-center gap-3 mb-5 group" aria-label={brand.ariaLabel}>
+          <div
+            class="w-10 h-10 flex items-center justify-center shrink-0"
+            style="
+              background: linear-gradient(135deg, var(--color-verde) 0%, #111412 55%, var(--color-rojo) 100%);
+              clip-path: polygon(8% 0%,92% 0%,100% 8%,100% 92%,92% 100%,8% 100%,0% 92%,0% 8%);
+            "
+          >
+            <span class="font-display text-white font-bold text-sm">{brand.shortName}</span>
+          </div>
+          <div>
+            <span class="block font-display text-white uppercase tracking-widest text-base leading-none group-hover:text-dorado transition-colors">
+              {brand.name}
+            </span>
+            <span class="block font-body text-white/30 text-xs mt-0.5">
+              {brand.tagline}
+            </span>
+          </div>
+        </a>
+
+        <p class="text-white/40 text-sm font-body leading-relaxed max-w-xs mb-6">
+          La comunidad oficial de aficionados mexicanos que lleva la pasión del fútbol a los mundiales.
+          Rusia 2018 · Qatar 2022 · 2026.
+        </p>
+
+        <!-- Redes sociales -->
+        <div class="flex flex-wrap gap-3">
+          {socialLinks.map(({ label, href, abbr }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              class="w-8 h-8 border border-white/20 flex items-center justify-center
+                     font-display text-xs text-white/40
+                     hover:border-dorado hover:text-dorado transition-colors"
+            >
+              {abbr}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Columnas de links (proyecto, mundiales, comunidad) -->
+      {columnGroups.map(([section, links]) => (
+        <div>
+          <h3 class="font-display text-xs uppercase tracking-[0.2em] text-dorado mb-4">
+            {capitalize(section)}
+          </h3>
+          <ul class="space-y-2">
+            {links.map(({ label, href }) => (
+              <li>
+                <a href={href} class="font-body text-sm text-white/40 hover:text-white transition-colors">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+    </div>
+
+    <!-- CTA rumbo al 2026 -->
+    <div class="mt-16 border border-verde/30 bg-verde/5 p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <p class="section-label mb-1">Rumbo al Mundial</p>
+        <p class="font-display text-white text-2xl uppercase leading-none">
+          México · USA · Canadá 2026
+        </p>
+      </div>
+      <a href="/mundiales/2026" class="btn-gold shrink-0">
+        Ver proyecto 2026 →
+      </a>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-white/20 text-xs font-body">
+        © {currentYear} {brand.name} — {brand.tagline}. Todos los derechos reservados.
+      </p>
+      <div class="flex items-center gap-4">
+        {footerLinks.legal.map(({ label, href }) => (
+          <a href={href} class="text-white/20 text-xs hover:text-white/50 transition-colors font-body">
+            {label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</footer>

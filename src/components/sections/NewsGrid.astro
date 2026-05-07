@@ -1,0 +1,78 @@
+---
+// src/components/sections/NewsGrid.astro
+
+// Mock news — luego vendrán de content collections
+const noticias = [
+  {
+    slug: 'convocatoria-2026-abierta',
+    title: 'Se abre la convocatoria para el Mundial 2026',
+    excerpt: 'El movimiento Furia Azteca anuncia el inicio del proceso de selección para la edición más ambiciosa de su historia.',
+    date: '2025-04-15',
+    category: 'Convocatorias',
+    featured: true,
+  },
+  {
+    slug: 'recap-qatar-2022',
+    title: 'Qatar 2022: Crónica de una participación histórica',
+    excerpt: 'Un repaso completo de cómo la Selección Mexicana de Aficionados se convirtió en protagonista del mejor torneo de fans.',
+    date: '2023-01-20',
+    category: 'Historia',
+    featured: false,
+  },
+  {
+    slug: 'sedes-2026-anunciadas',
+    title: 'Las sedes del Mundial 2026 que visitaremos',
+    excerpt: 'Análisis de los estadios y ciudades clave en México, Estados Unidos y Canadá donde estaremos presentes.',
+    date: '2024-11-10',
+    category: '2026',
+    featured: false,
+  },
+];
+
+const formatDate = (d: string) =>
+  new Date(d).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<section class="py-24 bg-hueso" aria-labelledby="news-home-title">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div>
+        <p class="section-label mb-2">Últimas noticias</p>
+        <h2 id="news-home-title" class="section-title text-carbon">
+          Lo que pasa<br/>en el movimiento.
+        </h2>
+      </div>
+      <a href="/noticias" class="text-verde font-display text-sm uppercase tracking-widest hover:text-verde-dark transition-colors self-end">
+        Ver todas las noticias →
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {noticias.map(({ slug, title, excerpt, date, category, featured }) => (
+        <article class:list={['group border border-carbon/10 bg-white hover:border-verde/40 transition-colors', featured ? 'md:col-span-2' : '']}>
+          <!-- Placeholder imagen -->
+          <div class="aspect-video bg-carbon/5 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-verde/20 to-rojo/20"></div>
+            <span class="absolute top-4 left-4 bg-dorado text-carbon font-display text-xs uppercase tracking-widest px-2 py-1">
+              {category}
+            </span>
+          </div>
+
+          <div class="p-6 space-y-3">
+            <time datetime={date} class="font-body text-xs text-carbon/30 uppercase tracking-widest">
+              {formatDate(date)}
+            </time>
+            <h3 class="font-display text-carbon text-lg uppercase leading-tight group-hover:text-verde transition-colors">
+              <a href={`/noticias/${slug}`} class="after:absolute after:inset-0 relative">
+                {title}
+              </a>
+            </h3>
+            <p class="font-body text-carbon/50 text-sm leading-relaxed">{excerpt}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>

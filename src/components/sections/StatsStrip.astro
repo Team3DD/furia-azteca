@@ -1,0 +1,24 @@
+---
+// src/components/sections/StatsStrip.astro
+
+const stats = [
+  { value: '2', label: 'Mundiales jugados', sub: 'Rusia · Qatar' },
+  { value: '500+', label: 'Aficionados activos', sub: 'En todo México' },
+  { value: '7', label: 'Sedes nacionales', sub: 'y creciendo' },
+  { value: '2026', label: 'Próximo mundial', sub: 'MX · USA · CA' },
+];
+---
+
+<section class="bg-verde border-y border-verde-dark" aria-label="Estadísticas del movimiento">
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x md:divide-white/20">
+      {stats.map(({ value, label, sub }) => (
+        <div class="text-center md:px-8 space-y-1">
+          <span class="font-display text-white text-4xl md:text-5xl leading-none">{value}</span>
+          <p class="font-display text-white/80 text-xs uppercase tracking-widest">{label}</p>
+          <p class="font-body text-white/40 text-xs">{sub}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

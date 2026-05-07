@@ -1,0 +1,126 @@
+/* src/styles/global.css */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-verde: #006847;
+  --color-verde-dark: #004d35;
+  --color-verde-light: #00895f;
+  --color-rojo: #9B2335;
+  --color-rojo-dark: #7a1b28;
+  --color-rojo-light: #bf2a40;
+  --color-dorado: #C9A84C;
+  --color-dorado-dark: #a8893a;
+  --color-dorado-light: #e2c06a;
+  --color-carbon: #111412;
+  --color-carbon-mid: #1e2320;
+  --color-crema: #F5F0E8;
+  --color-crema-dark: #e8e0d0;
+  --color-hueso: #FAF7F2;
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --background-gradient-azteca: linear-gradient(135deg, #006847 0%, #111412 60%, #9B2335 100%);
+  --radius-sharp: 3px;
+  --radius-obtuse: 9px;
+
+  /* ── Tokens de forma rhomboid ── */
+  --skew-rhomboid: -15deg;
+  --skew-content: 15deg;
+  --rhomboid-scale-hover: 1.02;
+  --rhomboid-duration: 150ms;
+  --rhomboid-easing: ease;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-hueso);
+    color: var(--color-carbon);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .dark body {
+    background-color: var(--color-carbon);
+    color: var(--color-crema);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
+  }
+}
+
+@layer components {
+  /* ── Botones semánticos legacy (sin rhomboid) ── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-verde text-white font-display uppercase tracking-wider text-sm py-3 px-6 transition-colors duration-200;
+  }
+  .btn-primary:hover { @apply bg-verde-dark; }
+  .btn-primary:focus-visible {
+    @apply outline-none ring-2 ring-dorado ring-offset-2 ring-offset-hueso dark:ring-offset-carbon;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 border-2 border-verde text-verde font-display uppercase tracking-wider text-sm py-3 px-6 transition-all duration-200;
+  }
+  .btn-secondary:hover { @apply bg-verde text-white; }
+  .btn-gold {
+    @apply inline-flex items-center gap-2 bg-dorado text-carbon font-display uppercase tracking-wider text-sm py-3 px-6 transition-colors duration-200;
+  }
+  .btn-gold:hover { @apply bg-dorado-dark; }
+  .section-label {
+    @apply font-display text-xs uppercase tracking-[0.25em] text-dorado;
+  }
+  .section-title {
+    @apply font-display text-[clamp(1.875rem,5vw,3rem)] uppercase leading-none;
+  }
+}
+
+/* ── Sistema rhomboid — utilidades globales ── */
+@utility rhomboid {
+  transform: skewX(var(--skew-rhomboid));
+  transition:
+    transform var(--rhomboid-duration) var(--rhomboid-easing),
+    background-color var(--rhomboid-duration) var(--rhomboid-easing),
+    color var(--rhomboid-duration) var(--rhomboid-easing),
+    border-color var(--rhomboid-duration) var(--rhomboid-easing);
+  will-change: transform;
+}
+
+@utility rhomboid-content {
+  display: inline-block;
+  transform: skewX(var(--skew-content));
+  transition: transform var(--rhomboid-duration) var(--rhomboid-easing);
+}
+
+@utility rhomboid-hover {
+  &:hover {
+    transform: skewX(0deg) scale(var(--rhomboid-scale-hover));
+  }
+  &:hover .rhomboid-content {
+    transform: skewX(0deg);
+  }
+}
+
+@utility rhomboid-corners {
+  border-radius:
+    var(--radius-obtuse)
+    var(--radius-sharp)
+    var(--radius-obtuse)
+    var(--radius-sharp);
+  overflow: hidden;
+}
+
+/* Variante: solo esquinas, sin inclinación (para cards, imágenes) */
+@utility rhomboid-corners-only {
+  border-radius:
+    var(--radius-obtuse)
+    var(--radius-sharp)
+    var(--radius-obtuse)
+    var(--radius-sharp);
+}
+
+/* Variante: inclinación inversa (para elementos que miran a la derecha) */
+@utility rhomboid-reverse {
+  --skew-rhomboid: 15deg;
+  --skew-content: -15deg;
+}

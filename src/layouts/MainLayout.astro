@@ -1,0 +1,85 @@
+---
+// src/layouts/MainLayout.astro
+import '../styles/global.css';
+import Header from '../components/site/Header.astro';
+import Footer from '../components/site/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  class?: string;
+}
+
+const {
+  title,
+  description = 'Selección Mexicana de Aficionados — Comunidad oficial de fans de México rumbo al Mundial 2026.',
+  ogImage = '/images/og-default.jpg',
+  class: className,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{title} | Furia Azteca</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={`${title} | Furia Azteca`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | Furia Azteca`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Schema: Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsOrganization",
+        "name": "Furia Azteca",
+        "url": "https://furiaazteca.mx",
+        "logo": "https://furiaazteca.mx/images/logo.svg",
+        "sameAs": [
+          "https://www.instagram.com/furiaazteca",
+          "https://www.facebook.com/furiaazteca",
+          "https://twitter.com/furiaazteca"
+        ]
+      }
+    </script>
+  </head>
+
+  <body class:list={['min-h-screen flex flex-col', className]}>
+    <Header />
+
+    <main id="main-content" class="flex-1" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Skip to content (accesibilidad) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-dorado focus:text-carbon focus:font-display focus:text-sm focus:uppercase focus:tracking-widest"
+    >
+      Saltar al contenido
+    </a>
+  </body>
+</html>

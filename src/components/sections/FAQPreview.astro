@@ -1,0 +1,59 @@
+---
+// src/components/sections/FAQPreview.astro
+
+const faqs = [
+  {
+    q: '¿Qué es Furia Azteca?',
+    a: 'Es la Selección Mexicana de Aficionados, una comunidad organizada de fans que participa en torneos de aficionados durante los Mundiales de la FIFA.',
+  },
+  {
+    q: '¿Cómo puedo unirme?',
+    a: 'Puedes llenar el formulario en la sección "Únete". Buscamos jugadores, aficionados, voluntarios y líderes regionales en todo México.',
+  },
+  {
+    q: '¿Se necesita ser jugador de fútbol profesional?',
+    a: 'No. Somos una selección amateur. La pasión por México y el compromiso con la comunidad son los requisitos más importantes.',
+  },
+  {
+    q: '¿Participarán en el Mundial 2026?',
+    a: 'Sí. Estamos organizando la participación más ambiciosa del movimiento para México, Estados Unidos y Canadá 2026.',
+  },
+];
+---
+
+<section class="py-24 bg-crema" aria-labelledby="faq-home-title">
+  <div class="max-w-4xl mx-auto px-6">
+
+    <div class="text-center mb-12">
+      <p class="section-label mb-2">Preguntas frecuentes</p>
+      <h2 id="faq-home-title" class="section-title text-carbon">Lo que más nos preguntan</h2>
+    </div>
+
+    <div class="space-y-3">
+      {faqs.map(({ q, a }, i) => (
+        <details
+          class="group bg-white border border-carbon/10 open:border-verde/30 transition-colors"
+        >
+          <summary class="flex items-center justify-between px-6 py-5 cursor-pointer list-none font-display text-sm uppercase tracking-wide text-carbon hover:text-verde transition-colors">
+            <span>{q}</span>
+            <span class="ml-4 w-5 h-5 border border-current flex items-center justify-center shrink-0 text-xs
+                         group-open:bg-verde group-open:text-white group-open:border-verde transition-all">
+              <span class="group-open:hidden">+</span>
+              <span class="hidden group-open:block">−</span>
+            </span>
+          </summary>
+          <div class="px-6 pb-5">
+            <p class="font-body text-carbon/60 text-sm leading-relaxed">{a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="/faq" class="btn-secondary text-carbon border-carbon/30 hover:bg-carbon hover:text-white">
+        Ver todas las preguntas →
+      </a>
+    </div>
+
+  </div>
+</section>
