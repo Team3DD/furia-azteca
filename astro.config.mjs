@@ -5,11 +5,13 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://furiaazteca.mx',
+  site: 'https://internationalfanscup.com',
+
   integrations: [
     react(),
     sitemap(),
   ],
+
   vite: {
     plugins: [tailwindcss()],
   },
