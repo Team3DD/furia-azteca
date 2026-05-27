@@ -3,7 +3,7 @@
 import { Button } from "../ui/button";
 
 const brand = {
-  name: "Furia Azteca",
+  name: " InternationalFansCup",
   shortName: "FA",
   href: "/",
   ariaLabel: "Ir al inicio",
@@ -20,7 +20,8 @@ const topbar = {
 };
 
 const mainNav = [
-  { id: "degree",     label: "Tu Carrera", href: "/tu-carrera" },
+  { id: "about",      label: "Nosotros",   href: "/#about" },
+  { id: "degree",     label: "Historia", href: "/#historia" },
   {
     id: "events",
     label: "Eventos",
@@ -29,12 +30,10 @@ const mainNav = [
       { label: "Open Days",        href: "/eventos/open-days", accent: true },
     ],
   },
-  { id: "prospectus", label: "Prospectus", href: "/prospectus" },
-  { id: "about",      label: "Nosotros",   href: "/about" },
-  { id: "contact",    label: "Contacto",   href: "/contacto" },
+  
 ];
 
-const cta  = { label: "Apply", href: "/apply" };
+const cta  = { label: "Contacto", href: "/#formulario" };
 const a11y = { navLabel: "Navegación principal" };
 
 const normalizedNav = mainNav.map((item) => ({
@@ -47,7 +46,7 @@ const normalizedNav = mainNav.map((item) => ({
 
   <!-- Topbar -->
   <div class="hidden lg:block bg-carbon border-b border-white/5">
-    <div class="max-w-7xl mx-auto  flex justify-between items-center h-8">
+    <div class="md:w-4xl lg:w-7xl mx-auto  flex justify-between items-center h-8">
       <span class="font-body text-white/80 text-sm uppercase tracking-[0.2em]">
         {topbar.label}
       </span>
@@ -85,10 +84,11 @@ const normalizedNav = mainNav.map((item) => ({
     <a href={brand.href} class="header-logo-block" aria-label={brand.ariaLabel}>
       <div class="logo-content">
         <div class="logo-icon-wrap">
-          <img src="/logo.webp" alt={brand.shortName} class="logo-img" />
+          <img src="/logo.PNG" alt={brand.shortName} class="logo-img" />
         </div>
-        <span class="font-display text-carbon uppercase text-md tracking-[0.2em] brand-name leading-tight">
-          Furia Azteca
+        <span class="font-display text-crema uppercase text-md tracking-[0.2em] brand-name leading-tight">
+          <span class="hidden lg:inline">International Fans Cup</span>
+          <span class="lg:hidden">IFC</span>
         </span>
       </div>
     </a>
@@ -102,7 +102,7 @@ const normalizedNav = mainNav.map((item) => ({
             <div class="relative group">
               {item.children ? (
                 <>
-                  <button class="flex items-center gap-1 px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-carbon/70 hover:text-carbon transition-colors whitespace-nowrap">
+                  <button class="flex items-center gap-1 px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-crema/70 hover:text-carbon transition-colors whitespace-nowrap">
                     {item.label}
                     <svg
                       class="w-2 h-2 ml-1 opacity-50 group-hover:opacity-100 transition-transform duration-200 group-hover:rotate-180"
@@ -111,11 +111,11 @@ const normalizedNav = mainNav.map((item) => ({
                       <path stroke-linecap="round" d="M1 1l4 4 4-4" />
                     </svg>
                   </button>
-                  <div class="absolute top-full left-0 min-w-[180px] bg-white border border-carbon/10 shadow-xl opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 z-50">
+                  <div class="absolute top-full left-0 min-w-[180px] bg-crema border border-crema/10 shadow-xl opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 z-50">
                     {item.children.map((child) => (
                       <a
                         href={child.href}
-                        class="block px-4 py-2 font-body text-md text-carbon/70 hover:bg-carbon/5 hover:text-carbon transition-colors border-b border-carbon/5 last:border-0"
+                        class="block px-4 py-2 font-body text-md text-crema/70 hover:bg-crema/5 hover:text-crema transition-colors border-b border-carbon/5 last:border-0"
                       >
                         {child.accent && <span class="mr-1.5 text-dorado" aria-hidden="true">●</span>}
                         {child.label}
@@ -126,7 +126,7 @@ const normalizedNav = mainNav.map((item) => ({
               ) : (
                 <a
                   href={item.href}
-                  class="px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-carbon/70 hover:text-carbon transition-colors whitespace-nowrap"
+                  class="px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-crema/70 hover:text-crema transition-colors whitespace-nowrap"
                 >
                   {item.label}
                 </a>
@@ -135,14 +135,14 @@ const normalizedNav = mainNav.map((item) => ({
           ))}
         </nav>
 
-        <Button href={cta.href} variant="solid" color="verde" size="lg" className="hidden lg:inline-flex">
+        <Button href={cta.href} variant="solid" color="dorado" size="lg" className="hidden lg:inline-flex">
           {cta.label}
         </Button>
 
         <label for="mobile-menu" class="lg:hidden w-8 h-8 flex flex-col justify-center gap-1.5 cursor-pointer" aria-label="Abrir menú">
-          <span class="block h-0.5 w-6 bg-carbon" />
-          <span class="block h-0.5 w-6 bg-carbon" />
-          <span class="block h-0.5 w-6 bg-carbon" />
+          <span class="block h-0.5 w-6 bg-crema" />
+          <span class="block h-0.5 w-6 bg-crema" />
+          <span class="block h-0.5 w-6 bg-crema" />
         </label>
       </div>
     </div>
@@ -159,26 +159,26 @@ const normalizedNav = mainNav.map((item) => ({
 </div>
 
 <!-- Drawer móvil -->
-<aside class="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-carbon-mid border-l border-white/10 z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out translate-x-full peer-checked:translate-x-0">
-  <div class="flex justify-between items-center p-5 border-b border-white/10">
-    <span class="font-display text-white text-lg uppercase tracking-wider">{brand.name}</span>
-    <label for="mobile-menu" class="text-white/60 hover:text-white text-2xl cursor-pointer leading-none" aria-label="Cerrar menú">&times;</label>
+<aside class="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-carbon-mid border-l border-crema/10 z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out translate-x-full peer-checked:translate-x-0">
+  <div class="flex justify-between items-center p-5 border-b border-crema/10">
+    <span class="font-display text-crema text-lg uppercase tracking-wider">{brand.name}</span>
+    <label for="mobile-menu" class="text-crema/60 hover:text-crema text-2xl cursor-pointer leading-none" aria-label="Cerrar menú">&times;</label>
   </div>
 
-  <nav class="flex-1 overflow-y-auto py-4" aria-label={a11y.navLabel}>
+  <nav class="flex-1 overflow-y-auto py-4 space-y-2" aria-label={a11y.navLabel}>
     {normalizedNav.map((item) => (
-      <div class="mobile-nav-item border-b border-white/10 last:border-0">
+      <div class="mobile-nav-item">
         {item.children ? (
           <>
-            <button class="mobile-nav-toggle w-full flex justify-between items-center px-5 py-3 font-display text-sm uppercase tracking-wider text-white/80 hover:text-white transition-colors">
+            <button class="mobile-nav-toggle w-full flex justify-between items-center px-5 py-4 font-display text-sm uppercase tracking-wider text-crema/80 hover:text-crema transition-colors">
               {item.label}
-              <svg class="w-3 h-3 text-white/60 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg class="w-3 h-3 text-crema/60 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div class="mobile-submenu hidden pl-6 pb-2 space-y-1">
+            <div class="mobile-submenu hidden pl-6 pb-3 space-y-2">
               {item.children.map((child) => (
-                <a href={child.href} class="block py-2 font-body text-sm text-white/60 hover:text-white transition-colors">
+                <a href={child.href} class="block py-3 font-body text-sm text-crema/60 hover:text-crema transition-colors">
                   {child.accent && <span class="mr-1.5 text-dorado" aria-hidden="true">●</span>}
                   {child.label}
                 </a>
@@ -186,7 +186,7 @@ const normalizedNav = mainNav.map((item) => ({
             </div>
           </>
         ) : (
-          <a href={item.href} class="block px-5 py-3 font-display text-sm uppercase tracking-wider text-white/80 hover:text-white transition-colors">
+          <a href={item.href} class="block px-5 py-4 font-display text-sm uppercase tracking-wider text-crema/80 hover:text-crema transition-colors">
             {item.label}
           </a>
         )}
@@ -194,7 +194,7 @@ const normalizedNav = mainNav.map((item) => ({
     ))}
   </nav>
 
-  <div class="p-5 border-t border-white/10">
+  <div class="p-5 border-t border-crema/10">
     <Button href={cta.href} variant="solid" color="dorado" size="md" className="w-full justify-center">
       {cta.label}
     </Button>
@@ -211,7 +211,7 @@ const normalizedNav = mainNav.map((item) => ({
 
   document.querySelectorAll('.mobile-nav-toggle').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const submenu = btn.nextElementSibling as HTMLElement | null;
+      const submenu = btn.nextElementSibling;
       const arrow   = btn.querySelector('svg');
       if (!submenu) return;
       const open = submenu.classList.toggle('hidden');
@@ -223,12 +223,12 @@ const normalizedNav = mainNav.map((item) => ({
 <style is:global>
   :root {
     --skew: -15deg;
-    --r-acute:  4px;   /* esquinas exteriores: completamente lisas */
-    --r-obtuse: 12px;  /* esquinas interiores: redondeadas */
-    --crema: #e2dac7;
+    --r-acute:  4px;
+    --r-obtuse: 12px;
+    --verde: #006847;
     --hdr-h: clamp(64px, 12vw, 96px);
-    --logo-size: 5rem;
-    --logo-size-scrolled: 9rem; /* logo CRECE al hacer scroll */
+    --logo-size: 4rem;
+    --logo-size-scrolled: 7rem;
     --ease: 0.3s ease;
   }
 
@@ -238,7 +238,6 @@ const normalizedNav = mainNav.map((item) => ({
     align-items: stretch;
     width: 100%;
     height: var(--hdr-h);
-    /* overflow visible: el logo puede salir por arriba/abajo */
     overflow: visible;
     transition: height var(--ease);
   }
@@ -249,7 +248,7 @@ const normalizedNav = mainNav.map((item) => ({
     align-items: center;
     flex-shrink: 0;
     text-decoration: none;
-    background: var(--crema);
+    background: var(--verde);
     border-radius: var(--r-obtuse) var(--r-acute) var(--r-obtuse) var(--r-acute);
     transform: skewX(var(--skew));
     transform-origin: left center;
@@ -275,7 +274,6 @@ const normalizedNav = mainNav.map((item) => ({
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Permite que el logo sobresalga del navbar */
     overflow: visible;
     transition: width var(--ease), height var(--ease);
   }
@@ -284,7 +282,6 @@ const normalizedNav = mainNav.map((item) => ({
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* overflow visible para que salga del bloque */
     overflow: visible;
   }
 
@@ -300,7 +297,7 @@ const normalizedNav = mainNav.map((item) => ({
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    background: var(--crema);
+    background: var(--verde);
     border-radius: var(--r-obtuse) var(--r-acute) var(--r-obtuse) var(--r-acute);
     transform: skewX(var(--skew));
     transform-origin: right center;
@@ -316,11 +313,13 @@ const normalizedNav = mainNav.map((item) => ({
     transition: transform var(--ease), padding var(--ease);
   }
 
-  /* ─── SCROLL: logo CRECE y sale del navbar ─── */
-  #site-header.scrolled .header-bar     { height: 66px; }
-  #site-header.scrolled .logo-icon-wrap { width: var(--logo-size-scrolled); height: var(--logo-size-scrolled); }
-  #site-header.scrolled .brand-name     { font-size: 0.9rem; }
-  #site-header.scrolled .logo-content   { padding-right: 2rem; }
+  /* ─── SCROLL: solo en desktop el logo crece ─── */
+  @media (min-width: 1024px) {
+    #site-header.scrolled .header-bar     { height: 66px; }
+    #site-header.scrolled .logo-icon-wrap { width: var(--logo-size-scrolled); height: var(--logo-size-scrolled); }
+    #site-header.scrolled .brand-name     { font-size: 0.9rem; }
+    #site-header.scrolled .logo-content   { padding-right: 2rem; }
+  }
 
   /* ─── DRAWER MÓVIL ─── */
   .translate-x-full             { transform: translateX(100%); }

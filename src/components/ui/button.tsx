@@ -1,4 +1,3 @@
-// src/components/ui/button.tsx
 import { cn } from "../../lib/utils";
 
 const sizeMap = {
@@ -7,10 +6,11 @@ const sizeMap = {
   lg: "text-base py-2.5 px-8",
 };
 
-// Mapa de colores → clases CSS para hover sin JS
+// Colores sólidos para variantes outline y ghost, y para el fondo sólido de otros colores
 const colorMap: Record<string, string> = {
   verde:  "bg-verde  text-white hover:bg-verde-dark",
   rojo:   "bg-rojo   text-white hover:bg-rojo-dark",
+  // dorado sólido (fondo) ya no se usa para variant="solid", pero lo dejamos por si acaso
   dorado: "bg-dorado text-carbon hover:bg-dorado-dark",
 };
 
@@ -48,12 +48,22 @@ export function Button({
   href?: string;
   target?: string;
 }) {
-  const colorClass =
-    variant === "solid"
-      ? (colorMap[color] ?? `bg-[var(--color-${color})] text-white`)
-      : variant === "outline"
-        ? (outlineMap[color] ?? `border-2 border-[var(--color-${color})] text-[var(--color-${color})]`)
-        : (ghostMap[color] ?? `text-[var(--color-${color})]`);
+  // Lógica especial: si variant="solid" y color="dorado" → gradiente
+  const isGoldSolid = variant === "solid" && color === "dorado";
+
+  let colorClass = "";
+  if (isGoldSolid) {
+    // Gradiente personalizado
+    colorClass = "bg-gradient-to-tl from-amber-400 via-yellow-500 to-amber-300 text-carbon hover:from-amber-500 hover:via-yellow-600 hover:to-amber-400";
+  } else {
+    // Comportamiento normal según variante
+    colorClass =
+      variant === "solid"
+        ? (colorMap[color] ?? `bg-[var(--color-${color})] text-white`)
+        : variant === "outline"
+          ? (outlineMap[color] ?? `border-2 border-[var(--color-${color})] text-[var(--color-${color})]`)
+          : (ghostMap[color] ?? `text-[var(--color-${color})]`);
+  }
 
   const Element = href ? "a" : "button";
   const elementProps = href
@@ -75,7 +85,7 @@ export function Button({
         "dark:focus-visible:ring-offset-carbon",
         // ── Sistema rhomboid (utilidades globales) ──
         "rhomboid rhomboid-hover rhomboid-corners",
-        // Color + variante
+        // Clase de color (gradiente o sólido)
         colorClass,
         sizeMap[size],
         className

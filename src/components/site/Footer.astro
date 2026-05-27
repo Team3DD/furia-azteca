@@ -2,6 +2,7 @@
 // src/components/site/Footer.astro
 import navData from '../../data/nav.json';
 import type { NavData } from '../../lib/types';
+import { Button } from "../ui/button";
 
 const { brand, footerLinks } = navData as NavData;
 const currentYear = new Date().getFullYear();
@@ -13,10 +14,16 @@ const socialLinks = [
   { label: 'YouTube',   href: 'https://youtube.com/furiaazteca',   abbr: 'YT' },
 ];
 
-// Capitaliza la primera letra de la clave para usarla como título de sección
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-// Grupos que van en las columnas (todo excepto 'legal', que va en el bottom bar)
+// Agregamos enlaces de navegación directa a secciones internas
+const directLinks = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Nosotros', href: '/#about' },        // Asume que AboutSection tiene id="about"
+  { label: 'Historia', href: '/historia' },       // Ruta a la página de historia
+  { label: 'Contacto', href: '/#formulario' },    // Ancla al formulario (Contacto)
+];
+
 const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'legal') as [string, { label: string; href: string }[]][];
 ---
 
@@ -29,7 +36,6 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
     aria-hidden="true"
   />
 
-  <!-- Cuerpo -->
   <div class="max-w-7xl mx-auto px-6 py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
 
@@ -60,7 +66,6 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
           Rusia 2018 · Qatar 2022 · 2026.
         </p>
 
-        <!-- Redes sociales -->
         <div class="flex flex-wrap gap-3">
           {socialLinks.map(({ label, href, abbr }) => (
             <a
@@ -78,7 +83,22 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
         </div>
       </div>
 
-      <!-- Columnas de links (proyecto, mundiales, comunidad) -->
+      <!-- Columna de navegación directa (extra) -->
+      <div>
+        <h3 class="font-display text-xs uppercase tracking-[0.2em] text-dorado mb-4">
+          Navegación
+        </h3>
+        <ul class="space-y-2">
+          {directLinks.map(({ label, href }) => (
+            <li>
+              <a href={href} class="font-body text-sm text-white/40 hover:text-white transition-colors">
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {columnGroups.map(([section, links]) => (
         <div>
           <h3 class="font-display text-xs uppercase tracking-[0.2em] text-dorado mb-4">
@@ -98,7 +118,7 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
 
     </div>
 
-    <!-- CTA rumbo al 2026 -->
+    <!-- CTA rumbo al 2026 con componente Button -->
     <div class="mt-16 border border-verde/30 bg-verde/5 p-8 flex flex-col md:flex-row items-center justify-between gap-6">
       <div>
         <p class="section-label mb-1">Rumbo al Mundial</p>
@@ -106,12 +126,12 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
           México · USA · Canadá 2026
         </p>
       </div>
-      <a href="/mundiales/2026" class="btn-gold shrink-0">
-        Ver proyecto 2026 →
-      </a>
+      <Button href="/mundiales/2026" variant="solid" color="dorado" size="md" className="shrink-0">
+        Ver proyecto 2026
+      </Button>
     </div>
 
-    <!-- Bottom bar -->
+    <!-- Bottom bar (antes del crédito) -->
     <div class="mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-white/20 text-xs font-body">
         © {currentYear} {brand.name} — {brand.tagline}. Todos los derechos reservados.
@@ -125,5 +145,32 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
       </div>
     </div>
 
+    <!-- Crédito DAUC centrado -->
+    <div class="text-center mt-8 pt-4 ">
+      <p class="text-white/30 text-sm font-body">
+        Design and development by
+        <span id="daucCredit" class="text-crema font-medium transition-all duration-300 cursor-default" style="text-shadow: 0 0 0 transparent;">
+          DAUC
+        </span>
+      </p>
+    </div>
+
   </div>
 </footer>
+
+<script>
+  // Efecto de cambio de color al hacer scroll (azul cielo)
+  const dauc = document.getElementById('daucCredit');
+  if (dauc) {
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      // Intensidad del azul: a más scroll, más azul (opcional)
+      const intensity = Math.min(scrollY / 300, 1);
+      const r = 135 + Math.floor((intensity) * (135 - 135)); // se mantiene
+      const g = 206 + Math.floor((intensity) * (250 - 206));
+      const b = 235 + Math.floor((intensity) * (255 - 235));
+      dauc.style.color = `rgb(${r}, ${g}, ${b})`;
+      dauc.style.textShadow = `0 0 ${intensity * 4}px skyblue`;
+    });
+  }
+</script>

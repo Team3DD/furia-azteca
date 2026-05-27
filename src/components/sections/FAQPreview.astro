@@ -1,5 +1,6 @@
 ---
 // src/components/sections/FAQPreview.astro
+import { Button } from "../ui/button";
 
 const faqs = [
   {
@@ -50,9 +51,9 @@ const faqs = [
     </div>
 
     <div class="text-center mt-8">
-      <a href="/faq" class="btn-secondary text-carbon border-carbon/30 hover:bg-carbon hover:text-white">
-        Ver todas las preguntas →
-      </a>
+      <Button href="/faq" variant="outline" color="verde" size="md">
+        Ver todas las preguntas
+      </Button>
     </div>
 
   </div>

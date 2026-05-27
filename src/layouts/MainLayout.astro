@@ -28,11 +28,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="canonical" href={canonicalURL} />
 
-    <title>{title} | Furia Azteca</title>
+    <title>{title} | International Fans Cup</title>
     <meta name="description" content={description} />
 
     <!-- Open Graph -->
-    <meta property="og:title" content={`${title} | Furia Azteca`} />
+    <meta property="og:title" content={`${title} | International Fans Cup`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={canonicalURL} />
@@ -41,25 +41,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} | Furia Azteca`} />
+    <meta name="twitter:title" content={`${title} | International Fans Cup`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Flag icons CSS (para banderas en elementos que no sean <option>) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@6.11.0/css/flag-icons.min.css" />
+
     <!-- Schema: Organization -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SportsOrganization",
-        "name": "Furia Azteca",
-        "url": "https://furiaazteca.mx",
-        "logo": "https://furiaazteca.mx/images/logo.svg",
+        "name": "International Fans Cup",
+        "url": "https://internationalfanscup.com",
+        "logo": "https://internationalfanscup.com/images/logo.svg",
         "sameAs": [
-          "https://www.instagram.com/furiaazteca",
-          "https://www.facebook.com/furiaazteca",
-          "https://twitter.com/furiaazteca"
+          "https://www.instagram.com/internationalfanscup",
+          "https://www.facebook.com/internationalfanscup",
+          "https://twitter.com/internationalfanscup"
         ]
       }
     </script>

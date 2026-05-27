@@ -7,24 +7,41 @@ import { Button } from "../ui/button";
   class="relative min-h-[92vh] flex items-center overflow-hidden bg-carbon"
   aria-labelledby="hero-title"
 >
-  <!-- Fondos y acentos (sin cambios) -->
+  <!-- VIDEO DE FONDO - ruta corregida -->
+  <div class="absolute inset-0 w-full h-full overflow-hidden">
+    <video
+      class="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto object-cover -translate-x-1/2 -translate-y-1/2"
+      src="/video.mp4"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
+      poster="/images/hero-bg.jpg"
+    >
+      <!-- Fallback si el navegador no soporta video -->
+      <img src="/images/hero-bg.jpg" alt="Background" class="w-full h-full object-cover" />
+    </video>
+  </div>
+
+  <!-- Overlays -->
   <div class="absolute inset-0 bg-gradient-azteca opacity-60" aria-hidden="true"></div>
-  <div class="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-20 mix-blend-luminosity" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-black/30" aria-hidden="true"></div>
   <div class="absolute inset-0 opacity-[0.03]" aria-hidden="true"
        style="background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, white 40px, white 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, white 40px, white 41px);">
   </div>
-  <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-verde via-dorado to-rojo" aria-hidden="true"></div>
 
-  <div class="relative max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-12 items-center w-full">
-    <div class="space-y-7">
-      <div class="flex items-center gap-3">
+  <!-- Contenedor con márgenes amplios -->
+  <div class="relative w-full max-w-8xl mx-auto px-6 md:px-10 lg:px-12 grid lg:grid-cols-2 gap-12 items-center">
+    <div class="space-y-8">
+      <div class="flex items-center gap-3 mt-28">
         <span class="section-label">Selección Mexicana de Aficionados</span>
         <span class="h-px flex-1 bg-dorado/30 max-w-12"></span>
       </div>
 
       <h1 id="hero-title" class="font-display text-white uppercase leading-none">
-        <span class="block text-5xl md:text-7xl">Furia</span>
-        <span class="block text-5xl md:text-7xl text-stroke-verde">Azteca</span>
+        <span class="block text-5xl md:text-7xl"> International</span>
+        <span class="block text-5xl md:text-7xl text-stroke-verde"> Fans Cup</span>
         <span class="block text-xl md:text-2xl text-white/40 mt-3 tracking-widest">
           La pasión hecha selección
         </span>
@@ -35,22 +52,20 @@ import { Button } from "../ui/button";
       </p>
 
       <div class="flex flex-wrap gap-4 pt-2">
-        <Button href="/unete" variant="solid" color="dorado" size="lg" client:load>
-          Únete al movimiento →
-        </Button>
+        <Button href="/#formulario" variant="solid" color="dorado" size="lg">
+          Únete al movimiento        </Button>
         <Button 
-          href="/historia" 
+          href="/#historia" 
           variant="outline" 
           color="verde" 
           size="lg" 
-          
-          client:load
+          className="!border-white/30 !text-white hover:!bg-white hover:!text-carbon"
         >
-          Ver historia
+          Historia
         </Button>
       </div>
 
-      <!-- Indicadores de ediciones (sin cambios) -->
+      <!-- Indicadores de ediciones -->
       <div class="flex items-center gap-6 pt-4 border-t border-white/10">
         {[
           { year: '2018', place: 'Rusia', href: '/mundiales/rusia-2018' },
@@ -69,7 +84,7 @@ import { Button } from "../ui/button";
       </div>
     </div>
 
-    <!-- Bloque visual derecho (sin cambios) -->
+    <!-- Bloque visual derecho (solo desktop) -->
     <div class="hidden lg:flex flex-col gap-4 items-end">
       <div class="w-full max-w-sm bg-white/5 border border-white/10 p-6 backdrop-blur-sm">
         <span class="section-label">Mejor torneo de fans</span>
@@ -94,10 +109,7 @@ import { Button } from "../ui/button";
     </div>
   </div>
 
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce" aria-hidden="true">
-    <span class="font-display text-white/20 text-xs uppercase tracking-widest">Scroll</span>
-    <div class="w-px h-8 bg-gradient-to-b from-white/20 to-transparent"></div>
-  </div>
+  
 </section>
 
 <style>

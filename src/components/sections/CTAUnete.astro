@@ -1,11 +1,14 @@
 ---
 // src/components/sections/CTAUnete.astro
+import { Button } from "../ui/button";
 ---
 
 <section class="relative overflow-hidden bg-carbon py-24" aria-labelledby="cta-title">
   <div class="absolute inset-0 bg-gradient-azteca opacity-80" aria-hidden="true"></div>
-  <div class="absolute left-0 top-0 bottom-0 w-1 bg-dorado" aria-hidden="true"></div>
-  <div class="absolute right-0 top-0 bottom-0 w-1 bg-dorado" aria-hidden="true"></div>
+  
+  <!-- Bordes laterales con degradado vertical delgado -->
+  <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-dorado to-transparent" aria-hidden="true"></div>
+  <div class="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-dorado to-transparent" aria-hidden="true"></div>
 
   <div class="relative max-w-4xl mx-auto px-6 text-center">
     <p class="section-label mb-4">¿Listo para el 2026?</p>
@@ -17,12 +20,18 @@
       Jugadores, aficionados, voluntarios y líderes locales. Hay un lugar para ti en la Selección Mexicana de Aficionados.
     </p>
     <div class="flex flex-wrap gap-4 justify-center">
-      <a href="/unete" class="btn-gold text-base px-8 py-4">
-        Quiero participar →
-      </a>
-      <a href="/faq" class="btn-secondary border-white/30 text-white hover:bg-white hover:text-carbon text-base px-8 py-4">
+      <Button href="/#formulario" variant="solid" color="dorado" size="lg">
+        Quiero participar
+      </Button>
+      <Button 
+        href="/#formulario" 
+        variant="outline" 
+        color="dorado" 
+        size="lg" 
+        className="!border-white/30 !text-white hover:!bg-white hover:!text-carbon"
+      >
         Tengo preguntas
-      </a>
+      </Button>
     </div>
   </div>
 </section>

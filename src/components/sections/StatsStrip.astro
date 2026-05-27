@@ -9,14 +9,18 @@ const stats = [
 ];
 ---
 
-<section class="bg-verde border-y border-verde-dark" aria-label="Estadísticas del movimiento">
+<section class="bg-gradient-to-tl from-amber-400 via-yellow-500 to-amber-300 border-y border-amber-600/30" aria-label="Estadísticas del movimiento">
   <div class="max-w-7xl mx-auto px-6 py-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x md:divide-white/20">
-      {stats.map(({ value, label, sub }) => (
-        <div class="text-center md:px-8 space-y-1">
-          <span class="font-display text-white text-4xl md:text-5xl leading-none">{value}</span>
-          <p class="font-display text-white/80 text-xs uppercase tracking-widest">{label}</p>
-          <p class="font-body text-white/40 text-xs">{sub}</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 relative overflow-hidden">
+      {stats.map(({ value, label, sub }, idx) => (
+        <div class="relative text-center md:px-8 space-y-1 text-carbon">
+          <span class="font-display text-4xl md:text-5xl leading-none font-bold text-carbon">{value}</span>
+          <p class="font-display text-carbon/80 text-xs uppercase tracking-widest">{label}</p>
+          <p class="font-body text-carbon/60 text-xs">{sub}</p>
+          {/* Separador diagonal (solo desktop y excepto el último) */}
+          {idx < stats.length - 1 && (
+            <div class="hidden md:block absolute top-1/2 -right-3 w-0.5 h-12 bg-black/30 transform -translate-y-1/2 rotate-[15deg] pointer-events-none" aria-hidden="true"></div>
+          )}
         </div>
       ))}
     </div>
