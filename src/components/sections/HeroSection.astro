@@ -53,7 +53,7 @@ import { Button } from "../ui/button";
 
       <div class="flex flex-wrap gap-4 pt-2">
         <Button href="/#formulario" variant="solid" color="dorado" size="lg">
-          Únete al movimiento        </Button>
+          Registro        </Button>
         <Button 
           href="/#historia" 
           variant="outline" 
@@ -86,27 +86,36 @@ import { Button } from "../ui/button";
 
     <!-- Bloque visual derecho (solo desktop) -->
     <div class="hidden lg:flex flex-col gap-4 items-end">
-      <div class="w-full max-w-sm bg-white/5 border border-white/10 p-6 backdrop-blur-sm">
-        <span class="section-label">Mejor torneo de fans</span>
-        <p class="font-display text-white text-2xl uppercase mt-2 leading-none">
-          International<br/>Fans Cup
-        </p>
-        <p class="text-white/40 text-sm font-body mt-2">Qatar 2022 — Participación varonil y femenil</p>
-        <a href="/mundiales/qatar-2022" class="inline-flex items-center gap-2 text-dorado text-sm font-display uppercase tracking-widest mt-4 hover:gap-3 transition-all">
-          Ver edición <span>→</span>
+  
+      <!-- Tarjeta 1 -->
+        <a href="/#formulario" class="rhomboid rhomboid-corners rhomboid-hover w-full max-w-sm bg-white/5 border border-white/10 p-6 backdrop-blur-sm block">
+          <div class="rhomboid-content flex flex-col items-center text-center">
+            <span class="section-label text-sm tracking-[0.3em]">Mejor torneo de fans</span>
+            <p class="font-display text-white text-4xl uppercase mt-3 leading-none">
+              Registro <br/>Internacional
+            </p>
+            <p class="text-white/40 text-base font-body mt-3">Registro de equipos</p>
+            <span class="inline-flex items-center gap-2 text-dorado text-sm font-display uppercase tracking-widest mt-5">
+              Registro de capitanes
+            </span>
+          </div>
         </a>
-      </div>
-      <div class="w-full max-w-sm bg-verde/20 border border-verde/40 p-4 flex items-center gap-4">
-        <div class="w-10 h-10 bg-verde flex items-center justify-center shrink-0">
-          <span class="font-display text-white text-xs font-bold">26</span>
-        </div>
-        <div>
-          <p class="font-display text-white uppercase text-sm tracking-widest">Mundial 2026</p>
-          <p class="font-body text-white/40 text-xs">México · Estados Unidos · Canadá</p>
-        </div>
-        <a href="/mundiales/2026" class="ml-auto text-verde-light hover:text-white transition-colors text-sm">→</a>
-      </div>
+
+        <!-- Tarjeta 2 -->
+        <a href="/#historia" class="rhomboid rhomboid-corners rhomboid-hover w-full max-w-sm bg-dorado/20 border border-dorado/40 p-5 block">
+          <div class="rhomboid-content flex flex-col items-center text-center gap-3">
+            <div class="w-12 h-12 bg-dorado flex items-center justify-center shrink-0">
+              <span class="font-display text-white text-sm font-bold">26</span>
+            </div>
+            <div>
+              <p class="font-display text-white uppercase text-lg tracking-widest">Mundial 2026</p>
+              <p class="font-body text-white/40 text-sm mt-1">México · Estados Unidos · Canadá</p>
+            </div>
+          </div>
+        </a>
+
     </div>
+
   </div>
 
   
@@ -114,7 +123,7 @@ import { Button } from "../ui/button";
 
 <style>
   .text-stroke-verde {
-    -webkit-text-stroke: 2px var(--color-verde);
+    -webkit-text-stroke: 2px var(--color-dorado);
     color: transparent;
   }
 </style>

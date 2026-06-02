@@ -1,55 +1,73 @@
 ---
 // src/components/site/Footer.astro
-import navData from '../../data/nav.json';
-import type { NavData } from '../../lib/types';
 import { Button } from "../ui/button";
 
-const { brand, footerLinks } = navData as NavData;
 const currentYear = new Date().getFullYear();
 
-const socialLinks = [
-  { label: 'Instagram', href: 'https://instagram.com/furiaazteca', abbr: 'IG' },
-  { label: 'Facebook',  href: 'https://facebook.com/furiaazteca',  abbr: 'FB' },
-  { label: 'Twitter/X', href: 'https://twitter.com/furiaazteca',   abbr: 'X'  },
-  { label: 'YouTube',   href: 'https://youtube.com/furiaazteca',   abbr: 'YT' },
-];
+// Configuración de marca
+const brand = {
+  name: 'International Fans Club',
+  shortName: 'IFC',
+  tagline: 'La experiencia mundialista',
+  href: '/',
+  ariaLabel: 'International Fans Club - Inicio',
+  logo: '/logo.PNG'
+};
 
-const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
-// Agregamos enlaces de navegación directa a secciones internas
+// Enlaces de navegación
 const directLinks = [
   { label: 'Inicio', href: '/' },
-  { label: 'Nosotros', href: '/#about' },        // Asume que AboutSection tiene id="about"
-  { label: 'Historia', href: '/historia' },       // Ruta a la página de historia
-  { label: 'Contacto', href: '/#formulario' },    // Ancla al formulario (Contacto)
+  { label: 'Nosotros', href: '/#about' },
+  { label: 'Historia', href: '/historia' },
+  { label: 'Contacto', href: '/#formulario' }
 ];
 
-const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'legal') as [string, { label: string; href: string }[]][];
+// Enlaces del footer por sección
+const footerLinks = {
+  internacional: [
+    { label: 'Ediciones anteriores', href: '/internacional/anteriores' },
+    { label: 'Clasificatorias', href: '/internacional/clasificatorias' },
+    { label: 'Selecciones', href: '/internacional/selecciones' }
+  ],
+  legal: [
+    { label: 'Aviso de privacidad', href: '/legal/privacidad' },
+    { label: 'Términos y condiciones', href: '/legal/terminos' },
+    { label: 'Cookies', href: '/legal/cookies' }
+  ]
+};
+
+// Redes sociales
+const socialLinks = [
+  { label: 'Instagram', href: 'https://instagram.com/internationalfansclub', abbr: 'IG' },
+  { label: 'Facebook', href: 'https://facebook.com/internationalfansclub', abbr: 'FB' },
+  { label: 'Twitter/X', href: 'https://twitter.com/internationalfansclub', abbr: 'X' },
+  { label: 'YouTube', href: 'https://youtube.com/internationalfansclub', abbr: 'YT' }
+];
+
+// Utilidad para capitalizar
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// Columnas dinámicas (excluyendo 'legal')
+const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'legal');
+
+// Clases reutilizables para título y lista (alineación responsive)
+const titleClasses = "font-display text-xs uppercase tracking-[0.2em] text-dorado mb-4 text-center lg:text-left";
+const listClasses = "space-y-2 text-center lg:text-left";
+const linkClasses = "font-body text-sm text-white/40 hover:text-white transition-colors";
 ---
 
 <footer class="bg-carbon border-t border-white/10">
-
-  <!-- Franja tricolor -->
-  <div
-    class="h-[3px]"
-    style="background: linear-gradient(90deg, var(--color-verde) 0%, var(--color-dorado) 50%, var(--color-rojo) 100%)"
-    aria-hidden="true"
-  />
+  <div class="h-[3px] bg-gradient-to-r from-transparent via-dorado to-transparent rounded-full mb-2" aria-hidden="true" />
 
   <div class="max-w-7xl mx-auto px-6 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+    <!-- Grid responsivo -->
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
 
-      <!-- Columna identidad -->
-      <div class="lg:col-span-2">
-        <a href={brand.href} class="flex items-center gap-3 mb-5 group" aria-label={brand.ariaLabel}>
-          <div
-            class="w-10 h-10 flex items-center justify-center shrink-0"
-            style="
-              background: linear-gradient(135deg, var(--color-verde) 0%, #111412 55%, var(--color-rojo) 100%);
-              clip-path: polygon(8% 0%,92% 0%,100% 8%,100% 92%,92% 100%,8% 100%,0% 92%,0% 8%);
-            "
-          >
-            <span class="font-display text-white font-bold text-sm">{brand.shortName}</span>
+      <!-- Columna identidad (centrada en móvil/tablet, izquierda en desktop) -->
+      <div class="flex flex-col items-center text-center md:col-span-2 lg:col-span-2 lg:items-start lg:text-left">
+        <a href={brand.href} class="flex flex-col md:flex-row items-center gap-4 mb-5 group" aria-label={brand.ariaLabel}>
+          <div class="overflow-hidden w-20 h-20 flex items-center justify-center shrink-0 bg-carbon/50">
+            <img src={brand.logo} alt={brand.name} class="w-full h-full object-contain" loading="lazy" />
           </div>
           <div>
             <span class="block font-display text-white uppercase tracking-widest text-base leading-none group-hover:text-dorado transition-colors">
@@ -62,76 +80,71 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
         </a>
 
         <p class="text-white/40 text-sm font-body leading-relaxed max-w-xs mb-6">
-          La comunidad oficial de aficionados mexicanos que lleva la pasión del fútbol a los mundiales.
+          La comunidad internacional de aficionados al fútbol que vive los mundiales como ningún otro.
           Rusia 2018 · Qatar 2022 · 2026.
         </p>
 
-        <div class="flex flex-wrap gap-3">
+        <!-- Redes sociales con efecto romboidal -->
+        <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
           {socialLinks.map(({ label, href, abbr }) => (
             <a
               href={href}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              class="w-8 h-8 border border-white/20 flex items-center justify-center
-                     font-display text-xs text-white/40
-                     hover:border-dorado hover:text-dorado transition-colors"
+              class="group rhomboid rhomboid-corners rhomboid-hover w-8 h-8 border border-white/20 flex items-center justify-center transition-all hover:bg-dorado hover:border-dorado"
             >
-              {abbr}
+              <span class="rhomboid-content font-display text-xs text-white/40 group-hover:text-carbon">
+                {abbr}
+              </span>
             </a>
           ))}
         </div>
       </div>
 
-      <!-- Columna de navegación directa (extra) -->
+      <!-- Navegación -->
       <div>
-        <h3 class="font-display text-xs uppercase tracking-[0.2em] text-dorado mb-4">
-          Navegación
-        </h3>
-        <ul class="space-y-2">
+        <h3 class={titleClasses}>Navegación</h3>
+        <ul class={listClasses}>
           {directLinks.map(({ label, href }) => (
             <li>
-              <a href={href} class="font-body text-sm text-white/40 hover:text-white transition-colors">
-                {label}
-              </a>
+              <a href={href} class={linkClasses}>{label}</a>
             </li>
           ))}
         </ul>
       </div>
 
+      <!-- Secciones dinámicas (Internacional, etc.) -->
       {columnGroups.map(([section, links]) => (
         <div>
-          <h3 class="font-display text-xs uppercase tracking-[0.2em] text-dorado mb-4">
-            {capitalize(section)}
-          </h3>
-          <ul class="space-y-2">
+          <h3 class={titleClasses}>{capitalize(section)}</h3>
+          <ul class={listClasses}>
             {links.map(({ label, href }) => (
               <li>
-                <a href={href} class="font-body text-sm text-white/40 hover:text-white transition-colors">
-                  {label}
-                </a>
+                <a href={href} class={linkClasses}>{label}</a>
               </li>
             ))}
           </ul>
         </div>
       ))}
-
     </div>
 
-    <!-- CTA rumbo al 2026 con componente Button -->
-    <div class="mt-16 border border-verde/30 bg-verde/5 p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div>
-        <p class="section-label mb-1">Rumbo al Mundial</p>
-        <p class="font-display text-white text-2xl uppercase leading-none">
-          México · USA · Canadá 2026
-        </p>
+    <!-- CTA "Rumbo al Mundial" (romboidal solo en tablet/desktop) -->
+    <div class="mt-16 border border-crema/30 bg-crema/5 p-8 transition-all hover:border-dorado/50 md:rhomboid rhomboid-corners md:mx-4 lg:mx-0">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 md:skew-x-[15deg]">
+        <div>
+          <p class="section-label mb-1">Rumbo al Mundial</p>
+          <p class="font-display text-white text-2xl uppercase leading-none">
+            México · USA · Canadá 2026
+          </p>
+        </div>
+        <Button href="/mundiales/2026" variant="solid" color="dorado" size="md">
+          Ver proyecto 2026
+        </Button>
       </div>
-      <Button href="/mundiales/2026" variant="solid" color="dorado" size="md" className="shrink-0">
-        Ver proyecto 2026
-      </Button>
     </div>
 
-    <!-- Bottom bar (antes del crédito) -->
+    <!-- Bottom bar (derechos + enlaces legales) -->
     <div class="mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-white/20 text-xs font-body">
         © {currentYear} {brand.name} — {brand.tagline}. Todos los derechos reservados.
@@ -145,8 +158,8 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
       </div>
     </div>
 
-    <!-- Crédito DAUC centrado -->
-    <div class="text-center mt-8 pt-4 ">
+    <!-- Crédito DAUC con efecto de scroll -->
+    <div class="text-center mt-8 pt-4">
       <p class="text-white/30 text-sm font-body">
         Design and development by
         <span id="daucCredit" class="text-crema font-medium transition-all duration-300 cursor-default" style="text-shadow: 0 0 0 transparent;">
@@ -154,23 +167,21 @@ const columnGroups = Object.entries(footerLinks).filter(([key]) => key !== 'lega
         </span>
       </p>
     </div>
-
   </div>
 </footer>
 
 <script>
-  // Efecto de cambio de color al hacer scroll (azul cielo)
-  const dauc = document.getElementById('daucCredit');
-  if (dauc) {
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      // Intensidad del azul: a más scroll, más azul (opcional)
-      const intensity = Math.min(scrollY / 300, 1);
-      const r = 135 + Math.floor((intensity) * (135 - 135)); // se mantiene
-      const g = 206 + Math.floor((intensity) * (250 - 206));
-      const b = 235 + Math.floor((intensity) * (255 - 235));
-      dauc.style.color = `rgb(${r}, ${g}, ${b})`;
-      dauc.style.textShadow = `0 0 ${intensity * 4}px skyblue`;
-    });
-  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const dauc = document.getElementById('daucCredit');
+    if (dauc) {
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const intensity = Math.min(scrollY / 300, 1);
+        const g = 206 + Math.floor(intensity * (250 - 206));
+        const b = 235 + Math.floor(intensity * (255 - 235));
+        dauc.style.color = `rgb(135, ${g}, ${b})`;
+        dauc.style.textShadow = `0 0 ${intensity * 4}px skyblue`;
+      });
+    }
+  });
 </script>

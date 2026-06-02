@@ -6,7 +6,7 @@
   <div class="max-w-5xl mx-auto px-6 md:px-10">
     <div class="text-center mb-12">
       <span class="section-label text-dorado">Convocatoria abierta</span>
-      <h2 class="font-display text-4xl md:text-5xl uppercase mt-2">¿Tienes lo que se necesita?</h2>
+      <h2 class="font-display text-4xl md:text-5xl uppercase mt-2">Info Capitán</h2>
       <div class="h-1 w-20 bg-dorado mx-auto mt-4"></div>
       <p class="mt-6 text-crema/70 max-w-2xl mx-auto">
         Completa el formulario y forma parte de la selección de aficionados.
@@ -14,7 +14,7 @@
     </div>
 
     <form id="playerForm" class="space-y-8">
-      <!-- Tipo de jugador con bandera vectorial (no emoji) -->
+      <!-- Tipo de jugador -->
       <div class="grid md:grid-cols-2 gap-6">
         <label class="flex items-center gap-3 p-4 bg-carbon/50 border border-crema/10 rounded-lg cursor-pointer hover:border-dorado transition-colors">
           <input type="radio" name="playerType" value="mexicano" checked class="w-5 h-5 accent-dorado">
@@ -30,13 +30,10 @@
         </label>
       </div>
 
-      <!-- Selector de países personalizado (con banderas reales) -->
+      <!-- Selector de países (solo para internacional) -->
       <div id="countryGroup" class="hidden">
         <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">País de origen</label>
-        
         <input type="hidden" id="countryValue" name="countryValue" value="">
-
-        <!-- Select personalizado -->
         <div class="relative" id="customSelectContainer">
           <button type="button" id="customSelectBtn" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema text-left flex items-center justify-between focus:outline-none focus:border-dorado transition-colors">
             <span id="selectedCountryDisplay" class="flex items-center gap-2">
@@ -53,144 +50,436 @@
         </div>
       </div>
 
-      <!-- Campos personales -->
+      <!-- Campos personales con efecto romboidal en los inputs -->
       <div class="grid md:grid-cols-2 gap-6">
         <div>
           <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Nombre</label>
-          <input type="text" id="firstName" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado">
+          <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
+            <input type="text" id="firstName" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
+          </div>
         </div>
         <div>
           <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Apellido</label>
-          <input type="text" id="lastName" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado">
+          <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
+            <input type="text" id="lastName" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
+          </div>
         </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
         <div>
           <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Teléfono (con código país)</label>
-          <input type="tel" id="phone" required placeholder="+52 1234567890" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado">
+          <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
+            <input type="tel" id="phone" required placeholder="+52 15527574349" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
+          </div>
         </div>
         <div>
           <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Correo electrónico</label>
-          <input type="email" id="email" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado">
+          <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
+            <input type="email" id="email" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección dinámica de jugadores -->
+      <div id="playersSection" class="hidden space-y-4">
+        <div class="border-t border-crema/20 pt-4">
+          <h3 class="font-display text-2xl uppercase text-dorado text-center mb-4">Lista de jugadores</h3>
+          <p class="text-sm text-crema/60 text-center mb-6">Mínimo 7 jugadores - Máximo 20</p>
+          <div id="playersContainer" class="space-y-4 max-h-96 overflow-y-auto pr-2"></div>
+          <div class="flex flex-wrap gap-4 justify-center mt-6">
+            <button type="button" id="addPlayerBtn" class="px-4 py-2 text-sm font-body uppercase tracking-wider border border-dorado text-dorado rounded-lg hover:bg-dorado/10 transition">+ Agregar jugador</button>
+            <button type="button" id="removeLastPlayerBtn" class="px-4 py-2 text-sm font-body uppercase tracking-wider border border-red-500 text-red-400 rounded-lg hover:bg-red-500/10 transition">- Quitar último</button>
+          </div>
         </div>
       </div>
 
       <div id="formStatus" class="hidden p-4 rounded-lg text-center"></div>
 
       <div class="text-center pt-4">
-        <button id="submitBtn" type="button" class="relative inline-flex items-center justify-center font-display font-medium uppercase tracking-wider whitespace-nowrap transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-dorado focus-visible:ring-offset-2 focus-visible:ring-offset-hueso dark:focus-visible:ring-offset-carbon rhomboid rhomboid-hover rhomboid-corners bg-gradient-to-tl from-amber-400 via-yellow-500 to-amber-300 text-carbon hover:from-amber-500 hover:via-yellow-600 hover:to-amber-400 text-base py-2.5 px-8">
-          <span class="rhomboid-content">Enviar solicitud</span>
+        <button id="actionBtn" type="button" class="relative inline-flex items-center justify-center font-display font-medium uppercase tracking-wider whitespace-nowrap transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-dorado focus-visible:ring-offset-2 focus-visible:ring-offset-hueso dark:focus-visible:ring-offset-carbon rhomboid rhomboid-hover rhomboid-corners bg-gradient-to-tl from-amber-400 via-yellow-500 to-amber-300 text-carbon hover:from-amber-500 hover:via-yellow-600 hover:to-amber-400 text-base py-2.5 px-8">
+          <span class="rhomboid-content">Lista de jugadores</span>
         </button>
       </div>
     </form>
   </div>
 </section>
 
+<!-- Modal personalizado -->
+<div id="customModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
+  <div class="bg-carbon-mid border border-dorado/30 rounded-xl max-w-md w-full mx-4 p-6 shadow-2xl">
+    <h3 id="modalTitle" class="font-display text-2xl text-dorado mb-3">Atención</h3>
+    <p id="modalMessage" class="text-crema/90 mb-6"></p>
+    <div class="flex justify-end">
+      <button id="closeModalBtn" class="px-5 py-2 bg-dorado text-carbon font-bold rounded-lg hover:bg-amber-500 transition">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Al hacer focus en el input, eliminamos la inclinación romboidal */
+  input:focus {
+    transform: skewX(0deg) !important;
+  }
+  /* También aseguramos que el contenedor padre no interfiera */
+  input:focus ~ *,
+  input:focus {
+    transition: transform 150ms ease;
+  }
+</style>
+
 <script>
-  const WHATSAPP_NUMBER = '521234567890';
-  const EMAIL_DESTINO = 'contacto@internationalfanscup.com';
+// @ts-nocheck
+// ----- CONSTANTES (cámbialas por las tuyas) -----
+const WHATSAPP_NUMBER = '5215527574349';
+const EMAIL_DESTINO = 'contacto@internationalfanscup.com';
 
-  const paises = [
-    { iso: "de", nombre: "Alemania", flag: "fi fi-de" },
-    { iso: "sa", nombre: "Arabia Saudita", flag: "fi fi-sa" },
-    { iso: "ar", nombre: "Argentina", flag: "fi fi-ar" },
-    { iso: "au", nombre: "Australia", flag: "fi fi-au" },
-    { iso: "be", nombre: "Bélgica", flag: "fi fi-be" },
-    { iso: "ba", nombre: "Bosnia y Herzegovina", flag: "fi fi-ba" },
-    { iso: "br", nombre: "Brasil", flag: "fi fi-br" },
-    { iso: "ca", nombre: "Canadá", flag: "fi fi-ca" },
-    { iso: "cv", nombre: "Cabo Verde", flag: "fi fi-cv" },
-    { iso: "cm", nombre: "Camerún", flag: "fi fi-cm" },
-    { iso: "qa", nombre: "Catar", flag: "fi fi-qa" },
-    { iso: "cl", nombre: "Chile", flag: "fi fi-cl" },
-    { iso: "co", nombre: "Colombia", flag: "fi fi-co" },
-    { iso: "kr", nombre: "Corea del Sur", flag: "fi fi-kr" },
-    { iso: "ci", nombre: "Costa de Marfil", flag: "fi fi-ci" },
-    { iso: "cr", nombre: "Costa Rica", flag: "fi fi-cr" },
-    { iso: "hr", nombre: "Croacia", flag: "fi fi-hr" },
-    { iso: "cw", nombre: "Curazao", flag: "fi fi-cw" },
-    { iso: "dk", nombre: "Dinamarca", flag: "fi fi-dk" },
-    { iso: "ec", nombre: "Ecuador", flag: "fi fi-ec" },
-    { iso: "eg", nombre: "Egipto", flag: "fi fi-eg" },
-    { iso: "sv", nombre: "El Salvador", flag: "fi fi-sv" },
-    { iso: "sk", nombre: "Eslovaquia", flag: "fi fi-sk" },
-    { iso: "si", nombre: "Eslovenia", flag: "fi fi-si" },
-    { iso: "es", nombre: "España", flag: "fi fi-es" },
-    { iso: "us", nombre: "Estados Unidos", flag: "fi fi-us" },
-    { iso: "fr", nombre: "Francia", flag: "fi fi-fr" },
-    { iso: "gh", nombre: "Ghana", flag: "fi fi-gh" },
-    { iso: "gt", nombre: "Guatemala", flag: "fi fi-gt" },
-    { iso: "ht", nombre: "Haití", flag: "fi fi-ht" },
-    { iso: "hn", nombre: "Honduras", flag: "fi fi-hn" },
-    { iso: "gb", nombre: "Inglaterra", flag: "fi fi-gb" },
-    { iso: "ir", nombre: "Irán", flag: "fi fi-ir" },
-    { iso: "it", nombre: "Italia", flag: "fi fi-it" },
-    { iso: "jp", nombre: "Japón", flag: "fi fi-jp" },
-    { iso: "ma", nombre: "Marruecos", flag: "fi fi-ma" },
-    { iso: "nz", nombre: "Nueva Zelanda", flag: "fi fi-nz" },
-    { iso: "no", nombre: "Noruega", flag: "fi fi-no" },
-    { iso: "nl", nombre: "Países Bajos", flag: "fi fi-nl" },
-    { iso: "pa", nombre: "Panamá", flag: "fi fi-pa" },
-    { iso: "py", nombre: "Paraguay", flag: "fi fi-py" },
-    { iso: "pe", nombre: "Perú", flag: "fi fi-pe" },
-    { iso: "pl", nombre: "Polonia", flag: "fi fi-pl" },
-    { iso: "pt", nombre: "Portugal", flag: "fi fi-pt" },
-    { iso: "cz", nombre: "República Checa", flag: "fi fi-cz" },
-    { iso: "cd", nombre: "República Democrática del Congo", flag: "fi fi-cd" },
-    { iso: "do", nombre: "República Dominicana", flag: "fi fi-do" },
-    { iso: "sn", nombre: "Senegal", flag: "fi fi-sn" },
-    { iso: "rs", nombre: "Serbia", flag: "fi fi-rs" },
-    { iso: "za", nombre: "Sudáfrica", flag: "fi fi-za" },
-    { iso: "se", nombre: "Suecia", flag: "fi fi-se" },
-    { iso: "ch", nombre: "Suiza", flag: "fi fi-ch" },
-    { iso: "tn", nombre: "Túnez", flag: "fi fi-tn" },
-    { iso: "tr", nombre: "Turquía", flag: "fi fi-tr" },
-    { iso: "ua", nombre: "Ucrania", flag: "fi fi-ua" },
-    { iso: "uy", nombre: "Uruguay", flag: "fi fi-uy" },
-    { iso: "uz", nombre: "Uzbekistán", flag: "fi fi-uz" },
-    { iso: "ve", nombre: "Venezuela", flag: "fi fi-ve" }
-  ];
+// ----- LISTA DE PAÍSES (completa) -----
+const paises = [
+  { iso: "de", nombre: "Alemania", flag: "fi fi-de" },
+  { iso: "sa", nombre: "Arabia Saudita", flag: "fi fi-sa" },
+  { iso: "ar", nombre: "Argentina", flag: "fi fi-ar" },
+  { iso: "au", nombre: "Australia", flag: "fi fi-au" },
+  { iso: "be", nombre: "Bélgica", flag: "fi fi-be" },
+  { iso: "ba", nombre: "Bosnia y Herzegovina", flag: "fi fi-ba" },
+  { iso: "br", nombre: "Brasil", flag: "fi fi-br" },
+  { iso: "ca", nombre: "Canadá", flag: "fi fi-ca" },
+  { iso: "cv", nombre: "Cabo Verde", flag: "fi fi-cv" },
+  { iso: "cm", nombre: "Camerún", flag: "fi fi-cm" },
+  { iso: "qa", nombre: "Catar", flag: "fi fi-qa" },
+  { iso: "cl", nombre: "Chile", flag: "fi fi-cl" },
+  { iso: "co", nombre: "Colombia", flag: "fi fi-co" },
+  { iso: "kr", nombre: "Corea del Sur", flag: "fi fi-kr" },
+  { iso: "ci", nombre: "Costa de Marfil", flag: "fi fi-ci" },
+  { iso: "cr", nombre: "Costa Rica", flag: "fi fi-cr" },
+  { iso: "hr", nombre: "Croacia", flag: "fi fi-hr" },
+  { iso: "cw", nombre: "Curazao", flag: "fi fi-cw" },
+  { iso: "dk", nombre: "Dinamarca", flag: "fi fi-dk" },
+  { iso: "ec", nombre: "Ecuador", flag: "fi fi-ec" },
+  { iso: "eg", nombre: "Egipto", flag: "fi fi-eg" },
+  { iso: "sv", nombre: "El Salvador", flag: "fi fi-sv" },
+  { iso: "sk", nombre: "Eslovaquia", flag: "fi fi-sk" },
+  { iso: "si", nombre: "Eslovenia", flag: "fi fi-si" },
+  { iso: "es", nombre: "España", flag: "fi fi-es" },
+  { iso: "us", nombre: "Estados Unidos", flag: "fi fi-us" },
+  { iso: "fr", nombre: "Francia", flag: "fi fi-fr" },
+  { iso: "gh", nombre: "Ghana", flag: "fi fi-gh" },
+  { iso: "gt", nombre: "Guatemala", flag: "fi fi-gt" },
+  { iso: "ht", nombre: "Haití", flag: "fi fi-ht" },
+  { iso: "hn", nombre: "Honduras", flag: "fi fi-hn" },
+  { iso: "gb", nombre: "Inglaterra", flag: "fi fi-gb" },
+  { iso: "ir", nombre: "Irán", flag: "fi fi-ir" },
+  { iso: "it", nombre: "Italia", flag: "fi fi-it" },
+  { iso: "jp", nombre: "Japón", flag: "fi fi-jp" },
+  { iso: "ma", nombre: "Marruecos", flag: "fi fi-ma" },
+  { iso: "nz", nombre: "Nueva Zelanda", flag: "fi fi-nz" },
+  { iso: "no", nombre: "Noruega", flag: "fi fi-no" },
+  { iso: "nl", nombre: "Países Bajos", flag: "fi fi-nl" },
+  { iso: "pa", nombre: "Panamá", flag: "fi fi-pa" },
+  { iso: "py", nombre: "Paraguay", flag: "fi fi-py" },
+  { iso: "pe", nombre: "Perú", flag: "fi fi-pe" },
+  { iso: "pl", nombre: "Polonia", flag: "fi fi-pl" },
+  { iso: "pt", nombre: "Portugal", flag: "fi fi-pt" },
+  { iso: "cz", nombre: "República Checa", flag: "fi fi-cz" },
+  { iso: "cd", nombre: "República Democrática del Congo", flag: "fi fi-cd" },
+  { iso: "do", nombre: "República Dominicana", flag: "fi fi-do" },
+  { iso: "sn", nombre: "Senegal", flag: "fi fi-sn" },
+  { iso: "rs", nombre: "Serbia", flag: "fi fi-rs" },
+  { iso: "za", nombre: "Sudáfrica", flag: "fi fi-za" },
+  { iso: "se", nombre: "Suecia", flag: "fi fi-se" },
+  { iso: "ch", nombre: "Suiza", flag: "fi fi-ch" },
+  { iso: "tn", nombre: "Túnez", flag: "fi fi-tn" },
+  { iso: "tr", nombre: "Turquía", flag: "fi fi-tr" },
+  { iso: "ua", nombre: "Ucrania", flag: "fi fi-ua" },
+  { iso: "uy", nombre: "Uruguay", flag: "fi fi-uy" },
+  { iso: "uz", nombre: "Uzbekistán", flag: "fi fi-uz" },
+  { iso: "ve", nombre: "Venezuela", flag: "fi fi-ve" }
+];
 
-  // Elementos DOM
-  const radioMexicano = document.querySelector('input[value="mexicano"]') as HTMLInputElement | null;
-  const radioInternacional = document.querySelector('input[value="internacional"]') as HTMLInputElement | null;
-  const countryGroup = document.getElementById('countryGroup');
-  const customSelectContainer = document.getElementById('customSelectContainer');
-  const customSelectBtn = document.getElementById('customSelectBtn');
-  const customSelectDropdown = document.getElementById('customSelectDropdown');
-  const selectedCountryDisplay = document.getElementById('selectedCountryDisplay');
-  const countryValueHidden = document.getElementById('countryValue') as HTMLInputElement | null;
-  const submitBtn = document.getElementById('submitBtn');
-  const formStatus = document.getElementById('formStatus');
-  const firstNameInput = document.getElementById('firstName') as HTMLInputElement | null;
-  const lastNameInput = document.getElementById('lastName') as HTMLInputElement | null;
-  const phoneInput = document.getElementById('phone') as HTMLInputElement | null;
-  const emailInput = document.getElementById('email') as HTMLInputElement | null;
+// ----- DOM elements -----
+const radioMexicano = document.querySelector('input[value="mexicano"]');
+const radioInternacional = document.querySelector('input[value="internacional"]');
+const countryGroup = document.getElementById('countryGroup');
+const customSelectBtn = document.getElementById('customSelectBtn');
+const customSelectDropdown = document.getElementById('customSelectDropdown');
+const customSelectContainer = document.getElementById('customSelectContainer');
+const selectedCountryDisplay = document.getElementById('selectedCountryDisplay');
+const countryValueHidden = document.getElementById('countryValue');
+const firstNameInput = document.getElementById('firstName');
+const lastNameInput = document.getElementById('lastName');
+const phoneInput = document.getElementById('phone');
+const emailInput = document.getElementById('email');
+const actionBtn = document.getElementById('actionBtn');
+const formStatus = document.getElementById('formStatus');
+const playersSection = document.getElementById('playersSection');
+const playersContainer = document.getElementById('playersContainer');
+const addPlayerBtn = document.getElementById('addPlayerBtn');
+const removeLastPlayerBtn = document.getElementById('removeLastPlayerBtn');
+const modal = document.getElementById('customModal');
+const modalMessage = document.getElementById('modalMessage');
+const closeModalBtn = document.getElementById('closeModalBtn');
 
-  // Mostrar/ocultar país
+// ----- Estado -----
+let players = [];     // contendrá objetos { nombre, apellido }
+let step = 'players_list'; // 'players_list' o 'submit'
+
+// ----- Modal helper -----
+function showModal(message) {
+  if (modal && modalMessage) {
+    modalMessage.innerText = message;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+}
+
+if (closeModalBtn) {
+  closeModalBtn.addEventListener('click', function() {
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  });
+}
+if (modal) {
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  });
+}
+
+// ----- Validar datos del capitán -----
+function validatePersonalData() {
+  const firstName = firstNameInput ? firstNameInput.value.trim() : '';
+  const lastName = lastNameInput ? lastNameInput.value.trim() : '';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+  if (!firstName || !lastName || !phone || !email) {
+    showModal('Todos los campos personales son obligatorios (nombre, apellido, teléfono, correo).');
+    return false;
+  }
+  if (email.indexOf('@') === -1) {
+    showModal('Correo electrónico no válido.');
+    return false;
+  }
+  const playerTypeRadio = document.querySelector('input[name="playerType"]:checked');
+  const playerType = playerTypeRadio ? playerTypeRadio.value : null;
+  if (playerType === 'internacional') {
+    const country = countryValueHidden ? countryValueHidden.value : '';
+    if (!country) {
+      showModal('Por favor selecciona tu país de origen.');
+      return false;
+    }
+  }
+  return true;
+}
+
+// ----- Escapar HTML -----
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+// ----- Renderizar lista de jugadores -----
+function renderPlayers() {
+  if (!playersContainer) return;
+  playersContainer.innerHTML = '';
+  players.forEach(function(player, idx) {
+    const playerDiv = document.createElement('div');
+    playerDiv.className = 'grid md:grid-cols-2 gap-4 p-4 bg-carbon/40 rounded-lg border border-crema/10';
+    playerDiv.innerHTML = `
+      <div>
+        <label class="block text-xs uppercase text-dorado mb-1">Nombre Jugador ${idx+1}</label>
+        <input type="text" class="player-name w-full bg-carbon border border-crema/20 rounded-lg px-3 py-2 text-crema focus:outline-none focus:border-dorado" value="${escapeHtml(player.nombre)}" data-index="${idx}" data-field="nombre">
+      </div>
+      <div>
+        <label class="block text-xs uppercase text-dorado mb-1">Apellido Jugador ${idx+1}</label>
+        <input type="text" class="player-lastname w-full bg-carbon border border-crema/20 rounded-lg px-3 py-2 text-crema focus:outline-none focus:border-dorado" value="${escapeHtml(player.apellido)}" data-index="${idx}" data-field="apellido">
+      </div>
+    `;
+    playersContainer.appendChild(playerDiv);
+  });
+
+  // Actualizar array al editar
+  document.querySelectorAll('.player-name').forEach(function(input) {
+    input.addEventListener('input', function(e) {
+      const target = e.target;
+      const idx = parseInt(target.getAttribute('data-index') || '0', 10);
+      if (!isNaN(idx) && players[idx]) players[idx].nombre = target.value;
+    });
+  });
+  document.querySelectorAll('.player-lastname').forEach(function(input) {
+    input.addEventListener('input', function(e) {
+      const target = e.target;
+      const idx = parseInt(target.getAttribute('data-index') || '0', 10);
+      if (!isNaN(idx) && players[idx]) players[idx].apellido = target.value;
+    });
+  });
+}
+
+function initPlayers(amount) {
+  amount = amount || 7;
+  players = [];
+  for (let i = 0; i < amount; i++) {
+    players.push({ nombre: '', apellido: '' });
+  }
+  renderPlayers();
+}
+
+function addPlayer() {
+  if (players.length >= 20) {
+    showModal('Ya has alcanzado el máximo de 20 jugadores.');
+    return false;
+  }
+  players.push({ nombre: '', apellido: '' });
+  renderPlayers();
+  return true;
+}
+
+function removeLastPlayer() {
+  if (players.length <= 1) {
+    showModal('Debes tener al menos 1 jugador. Para cumplir el mínimo agrega más usando el botón +');
+    return false;
+  }
+  players.pop();
+  renderPlayers();
+  return true;
+}
+
+function validatePlayersList() {
+  if (players.length < 7) {
+    showModal('Te faltan ' + (7 - players.length) + ' jugadores. Debes registrar al menos 7.');
+    return false;
+  }
+  if (players.length > 20) {
+    showModal('Excedes el número de jugadores. Máximo 20 (actual: ' + players.length + ').');
+    return false;
+  }
+  for (let i = 0; i < players.length; i++) {
+    if (!players[i].nombre.trim() || !players[i].apellido.trim()) {
+      showModal('El jugador ' + (i+1) + ' debe tener nombre y apellido completos.');
+      return false;
+    }
+  }
+  return true;
+}
+
+function submitFinal() {
+  if (!validatePersonalData()) return;
+  if (!validatePlayersList()) return;
+
+  const firstName = firstNameInput ? firstNameInput.value.trim() : '';
+  const lastName = lastNameInput ? lastNameInput.value.trim() : '';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const playerTypeRadio = document.querySelector('input[name="playerType"]:checked');
+  const playerType = playerTypeRadio ? playerTypeRadio.value : '';
+  let country = '';
+  if (playerType === 'internacional') {
+    country = countryValueHidden ? countryValueHidden.value : '';
+  } else {
+    country = 'México';
+  }
+
+  let playersListStr = '';
+  players.forEach(function(p, idx) {
+    playersListStr += 'Jugador ' + (idx+1) + ': ' + p.nombre + ' ' + p.apellido + '\n';
+  });
+
+  // WhatsApp
+  const message = 'Nuevo registro International Fans Cup%0A%0A' +
+    '*Tipo:* ' + (playerType === 'mexicano' ? 'Mexicano' : 'Internacional') + '%0A' +
+    '*Nombre Capitán:* ' + firstName + ' ' + lastName + '%0A' +
+    '*País:* ' + country + '%0A' +
+    '*Teléfono:* ' + phone + '%0A' +
+    '*Email:* ' + email + '%0A%0A' +
+    '*LISTA DE JUGADORES (' + players.length + ')*%0A' +
+    encodeURIComponent(playersListStr);
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + message, '_blank');
+
+  // Correo
+  const subject = encodeURIComponent('Registro IFC - ' + firstName + ' ' + lastName);
+  const body = encodeURIComponent(
+    'Nuevo registro\n\n' +
+    'Tipo: ' + (playerType === 'mexicano' ? 'Mexicano' : 'Internacional') + '\n' +
+    'Nombre Capitán: ' + firstName + ' ' + lastName + '\n' +
+    'País: ' + country + '\n' +
+    'Teléfono: ' + phone + '\n' +
+    'Email: ' + email + '\n\n' +
+    'LISTA DE JUGADORES (' + players.length + '):\n' + playersListStr
+  );
+  window.open('mailto:' + EMAIL_DESTINO + '?subject=' + subject + '&body=' + body, '_blank');
+
+  if (formStatus) {
+    formStatus.textContent = '✅ Se abrirán WhatsApp y tu correo. ¡Gracias por registrarte!';
+    formStatus.classList.remove('hidden', 'bg-red-600/20', 'border-red-600');
+    formStatus.classList.add('bg-green-600/20', 'border', 'border-green-600', 'text-green-200');
+    setTimeout(function() { formStatus.classList.add('hidden'); }, 6000);
+  }
+
+  // Reset completo
+  const form = document.getElementById('playerForm');
+  if (form && form.reset) form.reset();
+  if (countryGroup) countryGroup.classList.add('hidden');
+  if (radioMexicano) radioMexicano.checked = true;
+  if (selectedCountryDisplay) {
+    selectedCountryDisplay.innerHTML = '<span class="fi fi-mx w-5 h-5"></span><span>México</span>';
+  }
+  if (countryValueHidden) countryValueHidden.value = '';
+  if (customSelectDropdown) customSelectDropdown.classList.add('hidden');
+  if (playersSection) playersSection.classList.add('hidden');
+  players = [];
+  renderPlayers();
+  step = 'players_list';
+  const actionBtnSpan = actionBtn ? actionBtn.querySelector('.rhomboid-content') : null;
+  if (actionBtnSpan) actionBtnSpan.innerHTML = 'Lista de jugadores';
+}
+
+function onMainAction() {
+  if (step === 'players_list') {
+    if (!validatePersonalData()) return;
+    initPlayers(7);
+    if (playersSection) playersSection.classList.remove('hidden');
+    step = 'submit';
+    const actionBtnSpan = actionBtn ? actionBtn.querySelector('.rhomboid-content') : null;
+    if (actionBtnSpan) actionBtnSpan.innerHTML = 'Enviar solicitud';
+    if (playersSection) playersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    submitFinal();
+  }
+}
+
+// ----- Inicialización (lazy load cuando el DOM está listo) -----
+function initForm() {
+  // Mostrar/ocultar selector de país según tipo de jugador
   if (radioMexicano && radioInternacional) {
-    radioMexicano.addEventListener('change', () => {
+    radioMexicano.addEventListener('change', function() {
       if (radioMexicano.checked && countryGroup) countryGroup.classList.add('hidden');
     });
-    radioInternacional.addEventListener('change', () => {
+    radioInternacional.addEventListener('change', function() {
       if (radioInternacional.checked && countryGroup) countryGroup.classList.remove('hidden');
     });
   }
 
-  // Construir opciones del select personalizado
+  // Construir dropdown de países
   function buildDropdown() {
     if (!customSelectDropdown) return;
     const container = customSelectDropdown.querySelector('div');
     if (!container) return;
     container.innerHTML = '';
-    paises.forEach(pais => {
+    paises.forEach(function(pais) {
       const optionDiv = document.createElement('div');
       optionDiv.className = 'flex items-center gap-2 px-4 py-2 hover:bg-dorado/20 cursor-pointer transition-colors rounded';
-      optionDiv.innerHTML = `<span class="${pais.flag} w-5 h-5"></span><span>${pais.nombre}</span>`;
-      optionDiv.addEventListener('click', () => {
+      optionDiv.innerHTML = '<span class="' + pais.flag + ' w-5 h-5"></span><span>' + pais.nombre + '</span>';
+      optionDiv.addEventListener('click', function() {
         if (selectedCountryDisplay) {
-          selectedCountryDisplay.innerHTML = `<span class="${pais.flag} w-5 h-5"></span><span>${pais.nombre}</span>`;
+          selectedCountryDisplay.innerHTML = '<span class="' + pais.flag + ' w-5 h-5"></span><span>' + pais.nombre + '</span>';
         }
         if (countryValueHidden) countryValueHidden.value = pais.nombre;
         if (customSelectDropdown) customSelectDropdown.classList.add('hidden');
@@ -199,94 +488,27 @@
     });
   }
 
-  // Alternar dropdown
   if (customSelectBtn && customSelectDropdown && customSelectContainer) {
-    customSelectBtn.addEventListener('click', (e) => {
+    customSelectBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       customSelectDropdown.classList.toggle('hidden');
     });
-    document.addEventListener('click', (e) => {
-      if (!customSelectContainer.contains(e.target as Node)) {
-        customSelectDropdown.classList.add('hidden');
+    document.addEventListener('click', function(e) {
+      if (customSelectContainer && !customSelectContainer.contains(e.target)) {
+        if (customSelectDropdown) customSelectDropdown.classList.add('hidden');
       }
     });
   }
-
   buildDropdown();
 
-  // Funciones
-  function showMessage(text: string, isError = false) {
-    if (!formStatus) return;
-    formStatus.textContent = text;
-    formStatus.classList.remove('hidden', 'bg-green-600/20', 'border-green-600', 'bg-red-600/20', 'border-red-600');
-    if (isError) {
-      formStatus.classList.add('bg-red-600/20', 'border', 'border-red-600', 'text-red-200');
-    } else {
-      formStatus.classList.add('bg-green-600/20', 'border', 'border-green-600', 'text-green-200');
-    }
-    setTimeout(() => formStatus.classList.add('hidden'), 5000);
-  }
+  if (addPlayerBtn) addPlayerBtn.addEventListener('click', addPlayer);
+  if (removeLastPlayerBtn) removeLastPlayerBtn.addEventListener('click', removeLastPlayer);
+  if (actionBtn) actionBtn.addEventListener('click', onMainAction);
+}
 
-  submitBtn?.addEventListener('click', () => {
-    const playerTypeRadio = document.querySelector('input[name="playerType"]:checked') as HTMLInputElement | null;
-    const playerType = playerTypeRadio?.value;
-    const firstName = firstNameInput?.value.trim() || '';
-    const lastName = lastNameInput?.value.trim() || '';
-    const phone = phoneInput?.value.trim() || '';
-    const email = emailInput?.value.trim() || '';
-
-    let country = '';
-    if (playerType === 'internacional') {
-      country = countryValueHidden?.value || '';
-      if (!country) {
-        showMessage('Por favor selecciona tu país de origen.', true);
-        return;
-      }
-    } else {
-      country = 'México';
-    }
-
-    if (!firstName || !lastName || !phone || !email) {
-      showMessage('Todos los campos son obligatorios.', true);
-      return;
-    }
-    if (!email.includes('@')) {
-      showMessage('Correo electrónico no válido.', true);
-      return;
-    }
-
-    // WhatsApp
-    const message = `Nuevo registro International Fans Cup%0A%0A` +
-      `*Tipo:* ${playerType === 'mexicano' ? 'Mexicano' : 'Internacional'}%0A` +
-      `*Nombre:* ${firstName} ${lastName}%0A` +
-      `*País:* ${country}%0A` +
-      `*Teléfono:* ${phone}%0A` +
-      `*Email:* ${email}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-
-    // Correo
-    const subject = encodeURIComponent(`Registro IFC - ${firstName} ${lastName}`);
-    const body = encodeURIComponent(
-      `Nuevo registro\n\n` +
-      `Tipo: ${playerType === 'mexicano' ? 'Mexicano' : 'Internacional'}\n` +
-      `Nombre: ${firstName} ${lastName}\n` +
-      `País: ${country}\n` +
-      `Teléfono: ${phone}\n` +
-      `Email: ${email}`
-    );
-    window.open(`mailto:${EMAIL_DESTINO}?subject=${subject}&body=${body}`, '_blank');
-
-    showMessage('✅ Se abrirán WhatsApp y tu correo. ¡Gracias por registrarte!');
-
-    // Reset formulario
-    const form = document.getElementById('playerForm') as HTMLFormElement | null;
-    form?.reset();
-    if (countryGroup) countryGroup.classList.add('hidden');
-    if (radioMexicano) radioMexicano.checked = true;
-    if (selectedCountryDisplay) {
-      selectedCountryDisplay.innerHTML = `<span class="fi fi-mx w-5 h-5"></span><span>México</span>`;
-    }
-    if (countryValueHidden) countryValueHidden.value = '';
-    if (customSelectDropdown) customSelectDropdown.classList.add('hidden');
-  });
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initForm);
+} else {
+  initForm();
+}
 </script>

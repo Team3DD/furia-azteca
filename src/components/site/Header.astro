@@ -27,10 +27,9 @@ const mainNav = [
     label: "Eventos",
     children: [
       { label: "Próximos eventos", href: "/eventos/proximos" },
-      { label: "Open Days",        href: "/eventos/open-days", accent: true },
+      { label: "Próximamente",        href: "/eventos/Próximamente", accent: true },
     ],
   },
-  
 ];
 
 const cta  = { label: "Contacto", href: "/#formulario" };
@@ -44,7 +43,7 @@ const normalizedNav = mainNav.map((item) => ({
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50 w-full">
 
-  <!-- Topbar -->
+  <!-- Topbar (sin cambios) -->
   <div class="hidden lg:block bg-carbon border-b border-white/5">
     <div class="md:w-4xl lg:w-7xl mx-auto  flex justify-between items-center h-8">
       <span class="font-body text-white/80 text-sm uppercase tracking-[0.2em]">
@@ -74,8 +73,7 @@ const normalizedNav = mainNav.map((item) => ({
   </div>
 
   <div
-    class="h-[3px] bg-gradient-to-r from-green-600 via-crema to-red-600 rounded-full mb-2"
-    
+    class="h-[3px] bg-gradient-to-r from-transparent via-dorado to-transparent rounded-full mb-2"
     aria-hidden="true"
   />
 
@@ -86,7 +84,7 @@ const normalizedNav = mainNav.map((item) => ({
         <div class="logo-icon-wrap">
           <img src="/logo.PNG" alt={brand.shortName} class="logo-img" />
         </div>
-        <span class="font-display text-crema uppercase text-md tracking-[0.2em] brand-name leading-tight">
+        <span class="font-display text-carbon uppercase text-md tracking-[0.2em] brand-name leading-tight">
           <span class="hidden lg:inline">International Fans Cup</span>
           <span class="lg:hidden">IFC</span>
         </span>
@@ -102,7 +100,7 @@ const normalizedNav = mainNav.map((item) => ({
             <div class="relative group">
               {item.children ? (
                 <>
-                  <button class="flex items-center gap-1 px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-crema/70 hover:text-carbon transition-colors whitespace-nowrap">
+                  <button class="flex items-center gap-1 px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-carbon/70 hover:text-verde transition-colors whitespace-nowrap">
                     {item.label}
                     <svg
                       class="w-2 h-2 ml-1 opacity-50 group-hover:opacity-100 transition-transform duration-200 group-hover:rotate-180"
@@ -115,7 +113,7 @@ const normalizedNav = mainNav.map((item) => ({
                     {item.children.map((child) => (
                       <a
                         href={child.href}
-                        class="block px-4 py-2 font-body text-md text-crema/70 hover:bg-crema/5 hover:text-crema transition-colors border-b border-carbon/5 last:border-0"
+                        class="block px-4 py-2 font-body text-md text-carbon/70 hover:bg-carbon/5 hover:text-verde transition-colors border-b border-carbon/5 last:border-0"
                       >
                         {child.accent && <span class="mr-1.5 text-dorado" aria-hidden="true">●</span>}
                         {child.label}
@@ -126,7 +124,7 @@ const normalizedNav = mainNav.map((item) => ({
               ) : (
                 <a
                   href={item.href}
-                  class="px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-crema/70 hover:text-crema transition-colors whitespace-nowrap"
+                  class="px-3 py-2 font-display text-md uppercase tracking-[0.15em] text-carbon/70 hover:text-verde transition-colors whitespace-nowrap"
                 >
                   {item.label}
                 </a>
@@ -140,9 +138,9 @@ const normalizedNav = mainNav.map((item) => ({
         </Button>
 
         <label for="mobile-menu" class="lg:hidden w-8 h-8 flex flex-col justify-center gap-1.5 cursor-pointer" aria-label="Abrir menú">
-          <span class="block h-0.5 w-6 bg-crema" />
-          <span class="block h-0.5 w-6 bg-crema" />
-          <span class="block h-0.5 w-6 bg-crema" />
+          <span class="block h-0.5 w-6 bg-carbon" />
+          <span class="block h-0.5 w-6 bg-carbon" />
+          <span class="block h-0.5 w-6 bg-carbon" />
         </label>
       </div>
     </div>
@@ -158,7 +156,7 @@ const normalizedNav = mainNav.map((item) => ({
   <label for="mobile-menu" class="absolute inset-0 cursor-pointer" />
 </div>
 
-<!-- Drawer móvil -->
+<!-- Drawer móvil (fondo carbon, textos crema, se mantiene) -->
 <aside class="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-carbon-mid border-l border-crema/10 z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out translate-x-full peer-checked:translate-x-0">
   <div class="flex justify-between items-center p-5 border-b border-crema/10">
     <span class="font-display text-crema text-lg uppercase tracking-wider">{brand.name}</span>
@@ -195,7 +193,7 @@ const normalizedNav = mainNav.map((item) => ({
   </nav>
 
   <div class="p-5 border-t border-crema/10">
-    <Button href={cta.href} variant="solid" color="dorado" size="md" className="w-full justify-center">
+    <Button href={cta.href} variant="solid" color="carbon" size="md" className="w-full justify-center">
       {cta.label}
     </Button>
   </div>
@@ -225,7 +223,7 @@ const normalizedNav = mainNav.map((item) => ({
     --skew: -15deg;
     --r-acute:  4px;
     --r-obtuse: 12px;
-    --verde: #006847;
+    --crema: #e8e0d0;      
     --hdr-h: clamp(64px, 12vw, 96px);
     --logo-size: 4rem;
     --logo-size-scrolled: 7rem;
@@ -242,18 +240,19 @@ const normalizedNav = mainNav.map((item) => ({
     transition: height var(--ease);
   }
 
-  /* ─── BLOQUE LOGO ─── */
+  /* ─── BLOQUE LOGO (fondo crema) ─── */
   .header-logo-block {
     display: flex;
     align-items: center;
     flex-shrink: 0;
     text-decoration: none;
-    background: var(--verde);
+    background: var(--crema);
     border-radius: var(--r-obtuse) var(--r-acute) var(--r-obtuse) var(--r-acute);
     transform: skewX(var(--skew));
     transform-origin: left center;
     overflow: visible;
-    transition: transform var(--ease), border-radius var(--ease);
+    transition: transform var(--ease), border-radius var(--ease), box-shadow var(--ease);
+    box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
   }
 
   /* Contra-rotación: todo el contenido queda vertical */
@@ -285,23 +284,24 @@ const normalizedNav = mainNav.map((item) => ({
     overflow: visible;
   }
 
-  /* ─── BRAND NAME ─── */
+  /* ─── BRAND NAME (texto carbon) ─── */
   .brand-name {
     font-size: 1.5rem;
     white-space: nowrap;
     transition: font-size var(--ease);
   }
 
-  /* ─── BLOQUE NAV ─── */
+  /* ─── BLOQUE NAV (fondo crema) ─── */
   .header-nav-block {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    background: var(--verde);
+    background: var(--crema);  
     border-radius: var(--r-obtuse) var(--r-acute) var(--r-obtuse) var(--r-acute);
     transform: skewX(var(--skew));
     transform-origin: right center;
     transition: transform var(--ease), border-radius var(--ease);
+    box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
   }
 
   .nav-content {
@@ -313,7 +313,7 @@ const normalizedNav = mainNav.map((item) => ({
     transition: transform var(--ease), padding var(--ease);
   }
 
-  /* ─── SCROLL: solo en desktop el logo crece ─── */
+  /* ─── SCROLL (solo desktop) ─── */
   @media (min-width: 1024px) {
     #site-header.scrolled .header-bar     { height: 66px; }
     #site-header.scrolled .logo-icon-wrap { width: var(--logo-size-scrolled); height: var(--logo-size-scrolled); }
