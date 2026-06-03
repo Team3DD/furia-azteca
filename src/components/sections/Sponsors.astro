@@ -1,0 +1,61 @@
+---
+// src/components/sections/Sponsors.astro
+
+const sponsors = [
+  "/sponsors/sponsor1.png",
+  "/sponsors/sponsor2.png",
+  "/sponsors/sponsor3.png",
+  "/sponsors/sponsor4.png",
+  "/sponsors/sponsor5.png",
+  "/sponsors/sponsor6.png",
+];
+---
+
+<section id="sponsors" class="bg-carbon py-16 overflow-hidden">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-10">
+      <span class="section-label">PATROCINADORES</span>
+      <h2 class="font-display text-4xl md:text-5xl text-white uppercase mt-4">
+        Sponsors Oficiales
+      </h2>
+    </div>
+
+    <div class="relative overflow-hidden">
+      <div class="sponsors-track">
+        {[...sponsors, ...sponsors].map((logo) => (
+          <div class="flex-shrink-0">
+            <img
+              src={logo}
+              alt="Sponsor"
+              class="h-[100px] w-auto object-contain"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sponsors-track {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    width: max-content;
+    animation: sponsors-scroll 30s linear infinite;
+  }
+
+  @keyframes sponsors-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .sponsors-track:hover {
+    animation-play-state: paused;
+  }
+</style>

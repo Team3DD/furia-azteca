@@ -6,25 +6,25 @@ const hitos = [
   {
     year: '2017',
     title: 'El origen',
-    description: 'Nace la idea de llevar una selección organizada de aficionados mexicanos a un Mundial. Un grupo de apasionados decide que la afición merece representación.',
+    description: 'Nace la idea de participar en un torneo de fans 9 a side en Rusia 2017 invitación de la AMTEUR LEAGUE de Moscú nuestros Founders Gerardo Giacoman y Federico Buhrend entre otros crean la primer selección de fans.',
     accent: 'bg-dorado',
   },
   {
     year: '2018',
     title: 'Rusia La primera vez',
-    description: 'Primera participación oficial en Copa del Mundo. El movimiento debuta ante el mundo y sienta las bases de lo que vendría.',
+    description: 'Primer torneo de fans en el que nos presentamos como Furia Azteca y con mucho orgullo representamos los colores de nuestro país vs fans de diferentes partes del mundo - torneo organizado por la Amateur league de Moscú  quedamos.',
     accent: 'bg-rojo',
   },
   {
     year: '2019–21',
     title: 'Crecimiento interno',
-    description: 'Consolidación de sedes, formación de líderes regionales y construcción de comunidad. La pandemia no detiene el proyecto.',
+    description: 'Consolidamos el crecimiento del proyecto en varias sedes y equipos representativos de Furia azteca  TIJUANA - CDMX - SAN DIEGO - FEMENIL  y MIXTO - MASTERS 45+ así como centros operativos en CDMX, Tijuana y Monterrey.',
     accent: 'bg-dorado',
   },
   {
     year: '2022',
-    title: 'Qatar El mejor torneo de fans',
-    description: 'Furia Azteca participa en la International Fans Cup y es reconocida como el mejor torneo de aficionados de Qatar 2022. Participación varonil y femenil.',
+    title: 'Qatar el inicio de la International Fans Cup',
+    description: 'El primer Torneo Organizado enteramente por nosotros en Instalaciones deportivas de primer nivel, con la participación por primera vez de un equipo Femenil Completo que disputó el primer encuentro Femenil de Fans Mex v Arg haciendo historia, mientras que el torneo Varonil tuvo la participación de más de  Paises 🇲🇽🇪🇨🇭🇷🇧🇷🇦🇷🇵🇹🇮🇳 entre otros Nace INTERNATIONAL FANS CUP',
     accent: 'bg-verde',
   },
   {
@@ -54,7 +54,7 @@ const hitos = [
           Somos jugadores, voluntarios, líderes y apasionados que llevan los colores de México
           a los escenarios más grandes del mundo.
         </p>
-        <a
+        
           href="/#formulario"
           class="inline-flex items-center gap-2 text-dorado font-display text-sm uppercase tracking-widest mt-5 hover:gap-4 transition-all group"
         >
@@ -64,7 +64,6 @@ const hitos = [
     </div>
 
     <div class="relative">
-      <!-- Línea central solo en desktop -->
       <div class="hidden lg:block absolute left-[calc(50%-1px)] top-0 bottom-0 w-px bg-white/10" aria-hidden="true"></div>
 
       <div class="flex flex-col gap-12 md:gap-0">
@@ -72,12 +71,10 @@ const hitos = [
           const isEven = i % 2 === 0;
           return (
             <div class="relative grid lg:grid-cols-2 gap-6 md:gap-0 group">
-              <!-- Punto central (desktop) -->
               <div class="hidden lg:flex absolute left-1/2 top-8 -translate-x-1/2 z-10 items-center justify-center" aria-hidden="true">
                 <div class={['w-3 h-3 border-2 border-carbon transition-all duration-300 group-hover:scale-150', accent].join(' ')}></div>
               </div>
 
-              <!-- Contenedor del año + tarjeta con alineación -->
               <div class={[
                 'py-4 md:py-10',
                 isEven ? 'lg:pr-16 lg:text-right' : 'lg:col-start-2 lg:pl-16',
@@ -85,27 +82,49 @@ const hitos = [
                 <div class={[
                   'flex flex-col',
                   isEven ? 'lg:items-end' : 'lg:items-start',
-                  'items-center', // centrado en móvil y tablet
+                  'items-center',
                 ].join(' ')}>
-                  <!-- Año grande -->
                   <span class="font-display text-5xl md:text-6xl leading-none mb-3 text-white/10 group-hover:text-white/20 transition-colors duration-300">
                     {year}
                   </span>
 
-                  <!-- Tarjeta: MISMO PATRÓN QUE EL FOOTER -->
                   <div class="w-full max-w-sm mx-auto md:mx-0">
-                    <!-- Contenedor exterior: se inclina y tiene esquinas romboidales (solo md+) -->
-                    <div class="md:rhomboid rhomboid-corners border border-white/10 bg-white/[0.03] group-hover:bg-white/[0.06] group-hover:border-white/20 transition-all">
-                      <!-- Contenedor interior: contra‑inclinación (solo md+) -->
-                      <div class="md:skew-x-[15deg] p-5">
+                    <!-- CARD: en mobile es un acordeón, en desktop mantiene hover -->
+                    <div data-tilt class="hito-card rounded-lg border border-white/10 bg-white/[0.03] overflow-hidden">
+
+                      <!-- CABECERA: siempre visible, en mobile es clickeable -->
+                      <button
+                        class="hito-trigger w-full flex flex-col items-center justify-center p-5 text-center md:hidden"
+                        aria-expanded="false"
+                      >
                         <div class={['w-6 h-[2px] mb-3', accent].join(' ')}></div>
-                        <h3 class="font-display text-white text-base uppercase tracking-wide leading-tight mb-2">
+                        <h3 class="font-display text-white text-base uppercase tracking-wide leading-tight">
                           {title}
                         </h3>
-                        <p class="font-body text-white/40 text-sm leading-relaxed">
-                          {description}
-                        </p>
+                        <span class="text-white/30 text-xs mt-2 accordion-hint">toca para ver más ↓</span>
+                      </button>
+
+                      <!-- Título en desktop (no clickeable) -->
+                      <div class="hidden md:flex relative h-64 flex-col items-center justify-center p-5 text-center group/card overflow-hidden">
+                        <div class="transition-transform duration-300 ease-out group-hover/card:-translate-y-12 flex flex-col items-center">
+                          <div class={['w-6 h-[2px] mb-3 transition-colors duration-300 group-hover/card:bg-carbon', accent].join(' ')}></div>
+                          <h3 class="font-display text-white text-base uppercase tracking-wide leading-tight transition-colors duration-300 group-hover/card:text-carbon">
+                            {title}
+                          </h3>
+                        </div>
+                        <!-- Cortina dorada desktop -->
+                        <div class="absolute inset-0 bg-dorado text-carbon p-5 flex items-center justify-center transition-transform duration-300 ease-out -translate-y-full group-hover/card:translate-y-0">
+                          <p class="font-body text-sm leading-relaxed text-center">{description}</p>
+                        </div>
                       </div>
+
+                      <!-- Descripción mobile (acordeón) -->
+                      <div class="hito-body md:hidden overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                        <div class="bg-dorado text-carbon p-5">
+                          <p class="font-body text-sm leading-relaxed text-center">{description}</p>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -116,7 +135,6 @@ const hitos = [
       </div>
     </div>
 
-    <!-- Botones finales -->
     <div class="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-white/10 pt-12">
       <Button href="/#formulario" variant="outline" color="verde" size="lg" className="!border-white/20 !text-white hover:!bg-white hover:!text-carbon">
         Leer historia completa
@@ -128,3 +146,63 @@ const hitos = [
 
   </div>
 </section>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // ── ACORDEÓN MOBILE ──────────────────────────────────────────
+    document.querySelectorAll('.hito-trigger').forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        const card = trigger.closest('.hito-card');
+        const body = card.querySelector('.hito-body');
+        const hint = trigger.querySelector('.accordion-hint');
+        const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+        if (isOpen) {
+          body.style.maxHeight = '0px';
+          trigger.setAttribute('aria-expanded', 'false');
+          hint.textContent = 'toca para ver más ↓';
+        } else {
+          body.style.maxHeight = body.scrollHeight + 'px';
+          trigger.setAttribute('aria-expanded', 'true');
+          hint.textContent = 'cerrar ↑';
+        }
+      });
+    });
+
+    // ── TILT AL SCROLL (desktop) ─────────────────────────────────
+    const cards = document.querySelectorAll('[data-tilt]');
+
+    cards.forEach(function (card) {
+      card.style.opacity = '0';
+      card.style.transform = 'perspective(800px) rotateY(-8deg) rotateX(4deg)';
+      card.style.transition = 'transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease';
+    });
+
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg)';
+          entry.target.style.opacity = '1';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    cards.forEach(function (card) {
+      observer.observe(card);
+
+      card.addEventListener('mousemove', function (e) {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = 'perspective(800px) rotateY(' + (x * 12) + 'deg) rotateX(' + (-y * 8) + 'deg)';
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg)';
+      });
+    });
+
+  });
+</script>

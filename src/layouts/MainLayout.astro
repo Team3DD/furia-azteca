@@ -1,5 +1,4 @@
 ---
-// src/layouts/MainLayout.astro
 import '../styles/global.css';
 import Header from '../components/site/Header.astro';
 import Footer from '../components/site/Footer.astro';
@@ -9,6 +8,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   class?: string;
+  noIndex?: boolean;   // para páginas que no quieras en buscadores (ej. gracias, privacidad)
 }
 
 const {
@@ -16,39 +16,56 @@ const {
   description = 'Selección Mexicana de Aficionados — Comunidad oficial de fans de México rumbo al Mundial 2026.',
   ogImage = '/images/og-default.jpg',
   class: className,
+  noIndex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Construir URL absoluta para og:image
+const absoluteOgImage = ogImage.startsWith('http')
+  ? ogImage
+  : new URL(ogImage, Astro.site).href;
+
+// Control de robots
+const robotsContent = noIndex ? 'noindex, nofollow' : 'index, follow';
 ---
 
 <!doctype html>
 <html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="author" content="International Fans Cup" />
+    <meta name="theme-color" content="#1a2a3a" /> <!-- ajusta a tu color primario -->
 
     <title>{title} | International Fans Cup</title>
     <meta name="description" content={description} />
 
-    <!-- Open Graph -->
+    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
     <meta property="og:title" content={`${title} | International Fans Cup`} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" /> <!-- o image/png -->
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="International Fans Cup" />
 
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} | International Fans Cup`} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={absoluteOgImage} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" /> <!-- compatibilidad extra -->
 
-    <!-- Flag icons CSS (para banderas en elementos que no sean <option>) -->
+    <!-- Flag icons CSS (para banderas) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@6.11.0/css/flag-icons.min.css" />
 
     <!-- Schema: Organization -->

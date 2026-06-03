@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://internationalfanscup.com/sitemap-index.xml

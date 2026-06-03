@@ -8,9 +8,10 @@ import StatsStrip from '../components/sections/StatsStrip.astro';
 import NewsGrid from '../components/sections/NewsGrid.astro';
 import CTAUnete from '../components/sections/CTAUnete.astro';
 import FAQPreview from '../components/sections/FAQPreview.astro';
-// Nuevas secciones
+import GalleryCarousel from '../components/sections/GalleryCarousel.astro';
 import AboutSection from '../components/sections/AboutSection.astro';
 import FormSection from '../components/sections/FormSection.astro';
+import Sponsors from '../components/sections/Sponsors.astro';
 ---
 
 <MainLayout
@@ -19,11 +20,13 @@ import FormSection from '../components/sections/FormSection.astro';
 >
   <HeroSection />
   <StatsStrip />
-  <FormSection />  
+  <FormSection />
+  <GalleryCarousel />
   <MundialesStrip />
   <HistoriaPreview />
   <NewsGrid />
   <AboutSection />
   <CTAUnete />
+  <Sponsors>
   <FAQPreview />
 </MainLayout>

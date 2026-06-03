@@ -1,0 +1,338 @@
+---
+// GalleryCarousel.astro
+// Badge con rhomboid-corners-only, sin CTA, línea divisoria con gradiente, cards más grandes
+
+interface ImageData {
+  num: string;
+  badge: string;
+  alt: string;
+}
+
+const rusiaData: ImageData[] = [
+  { num: "01", badge: "Grupo F",       alt: "México vs Alemania, Rusia 2018" },
+  { num: "02", badge: "Histórico",     alt: "Gol de Lozano vs Alemania" },
+  { num: "03", badge: "Afición",       alt: "La afición mexicana en Rusia" },
+  { num: "04", badge: "Fase Grupos",   alt: "México vs Corea del Sur" },
+  { num: "05", badge: "Victoria",      alt: "Celebración del Tri" },
+  { num: "06", badge: "El Piojo",      alt: "DT Osorio en la cancha" },
+  { num: "07", badge: "Octavos",       alt: "México vs Brasil, octavos" },
+  { num: "08", badge: "Rivalidad",     alt: "México vs Suecia" },
+  { num: "09", badge: "Portero",       alt: "Ochoa en acción" },
+  { num: "10", badge: "Estadio",       alt: "Luzhniki Stadium" },
+  { num: "11", badge: "Arranque",      alt: "Calentamiento pre-partido" },
+  { num: "12", badge: "Pasión",        alt: "Marea verde en las tribunas" },
+  { num: "13", badge: "Capitán",       alt: "Andrés Guardado lidera al Tri" },
+  { num: "14", badge: "Defensa",       alt: "Línea defensiva mexicana" },
+  { num: "15", badge: "Velocidad",     alt: "Lozano desborda por banda" },
+  { num: "16", badge: "Presión",       alt: "Pressing alto del Tri" },
+  { num: "17", badge: "Memorial",      alt: "Minuto de silencio en Rusia" },
+  { num: "18", badge: "Equipo",        alt: "Foto grupal del Tri en Rusia" },
+  { num: "19", badge: "Emotivo",       alt: "Jugadores al final del partido" },
+  { num: "20", badge: "Hasta pronto",  alt: "Despedida de la Copa, Rusia" },
+];
+
+const qatarData: ImageData[] = [
+  { num: "01", badge: "Grupo C",       alt: "México en Qatar 2022" },
+  { num: "02", badge: "Debut",         alt: "Primer partido del Tri en Qatar" },
+  { num: "03", badge: "Afición",       alt: "La marea verde en Lusail" },
+  { num: "04", badge: "Clásico",       alt: "México vs Argentina" },
+  { num: "05", badge: "Gol",           alt: "Festejo de gol tricolor" },
+  { num: "06", badge: "Tata",          alt: "DT Martino da instrucciones" },
+  { num: "07", badge: "Polonia",       alt: "México vs Polonia, empate" },
+  { num: "08", badge: "Arabia",        alt: "México vs Arabia Saudita" },
+  { num: "09", badge: "Ochoa",         alt: "Guillermo Ochoa para el penal" },
+  { num: "10", badge: "Lusail",        alt: "Estadio Lusail, Qatar" },
+  { num: "11", badge: "Ensayo",        alt: "Entrenamiento en Qatar" },
+  { num: "12", badge: "Verde",         alt: "Mosaico de aficionados" },
+  { num: "13", badge: "Liderazgo",     alt: "Héctor Herrera lidera" },
+  { num: "14", badge: "Bloque bajo",   alt: "Defensa compacta" },
+  { num: "15", badge: "Velocidad",     alt: "Antuna por la banda" },
+  { num: "16", badge: "Intensidad",    alt: "Duelo en mediocampo" },
+  { num: "17", badge: "Desierto",      alt: "Atardecer en Qatar" },
+  { num: "18", badge: "Unión",         alt: "El Tri junto antes del partido" },
+  { num: "19", badge: "Último juego",  alt: "Final del ciclo mundialista" },
+  { num: "20", badge: "Hasta Qatar",   alt: "Despedida del Tri en Qatar 2022" },
+];
+
+const galerias = [
+  {
+    uid:       "gc-rusia",
+    titulo:    "Rusia 2018",
+    carpeta:   "rusia",
+    data:      rusiaData,
+    direction: "fwd",
+    speed:     80,
+  },
+  {
+    uid:       "gc-qatar",
+    titulo:    "Qatar 2022",
+    carpeta:   "qatar",
+    data:      qatarData,
+    direction: "rev",
+    speed:     100,
+  },
+];
+---
+
+<section class="bg-carbon w-full">
+  {galerias.map(({ uid, titulo, carpeta, data, direction, speed }, idx) => {
+    const imagenes = [...data, ...data];
+    const getImageSrc = (num: string) => `/src/assets/images/galeria/${carpeta}/${carpeta}galery${num}.webp`;
+    return (
+      <>
+        {/* Línea divisoria con gradiente (excepto en el primer bloque) */}
+        {idx > 0 && (
+          <div class="w-full h-px bg-gradient-to-r from-transparent via-dorado to-transparent my-8" aria-hidden="true"></div>
+        )}
+        <div id={uid} class="relative py-12 overflow-hidden">
+          <header class="relative z-10 text-center mb-12">
+            <span class="section-label">Galería Oficial</span>
+            <h2 class="section-title text-crema">{titulo}</h2>
+          </header>
+
+          <div class="relative z-10 gc-rows" data-direction={direction} style={`--speed: ${speed}s;`}>
+            <div class="overflow-hidden py-4 mask-fade-horizontal">
+              <div class="flex gap-10 w-max gc-track">
+                {imagenes.map((img, i) => (
+                  <button
+                    class="gc-card rhomboid rhomboid-corners group"
+                    type="button"
+                    data-id={img.num}
+                    data-src={getImageSrc(img.num)}
+                    data-alt={img.alt}
+                    data-badge={img.badge}
+                    aria-label={img.alt}
+                    tabindex={i < 20 ? "0" : "-1"}
+                    aria-hidden={i >= 20 ? "true" : undefined}
+                  >
+                    <img
+                      src={getImageSrc(img.num)}
+                      alt={img.alt}
+                      loading="lazy"
+                      class="absolute inset-0 w-full h-full object-cover transition-transform duration-300"
+                    />
+                    <!-- Badge con rhomboid-corners-only y hover de grupo -->
+                    <div class="absolute top-4 sm:top-6 left-4 sm:left-6 z-10">
+                      <span class="rhomboid-corners-only inline-block font-display text-xs sm:text-sm uppercase tracking-widest bg-dorado text-carbon group-hover:bg-carbon group-hover:text-crema px-2 py-1 sm:px-3 sm:py-1 transition-all duration-200">
+                        {img.badge}
+                      </span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-3 z-10 transition-transform duration-300 group-hover:translate-y-[-2px]">
+                      <span class="block w-6 h-0.5 bg-dorado mb-2 transition-all duration-200 group-hover:w-8"></span>
+                      <p class="font-display text-xs uppercase tracking-wide text-white drop-shadow-md line-clamp-2">{img.alt}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  })}
+</section>
+
+<!-- Modal global (igual que antes) -->
+<div id="global-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-xl bg-black/70 transition-all">
+  <div class="relative max-w-[90vw] max-h-[90vh] bg-transparent">
+    <button id="modal-close" class="absolute -top-12 right-0 md:-right-12 md:top-0 text-dorado bg-black/30 hover:bg-black/50 rounded-full w-10 h-10 flex items-center justify-center text-2xl transition-all hover:rotate-90">✕</button>
+    <button id="modal-prev" class="absolute left-2 top-1/2 -translate-y-1/2 md:-left-14 bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center text-dorado text-3xl transition-all">‹</button>
+    <div class="flex items-center justify-center w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+      <img id="modal-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain transition-opacity duration-200" />
+    </div>
+    <button id="modal-next" class="absolute right-2 top-1/2 -translate-y-1/2 md:-right-14 bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center text-dorado text-3xl transition-all">›</button>
+    <p id="modal-counter" class="absolute -bottom-10 left-1/2 -translate-x-1/2 text-dorado text-xs tracking-[0.2em] font-mono whitespace-nowrap"></p>
+  </div>
+</div>
+
+<style>
+  /* Máscara */
+  .mask-fade-horizontal {
+    mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+  }
+  /* Carrusel infinito */
+  .gc-rows {
+    --speed: 80s;
+  }
+  .gc-rows[data-direction="fwd"] .gc-track {
+    animation: scrollFwd var(--speed) linear infinite;
+  }
+  .gc-rows[data-direction="rev"] .gc-track {
+    animation: scrollRev var(--speed) linear infinite;
+  }
+  @keyframes scrollFwd {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-50% - 1.25rem)); }
+  }
+  @keyframes scrollRev {
+    from { transform: translateX(calc(-50% - 1.25rem)); }
+    to   { transform: translateX(0); }
+  }
+  .gc-rows:hover .gc-track,
+  .gc-rows.dragging .gc-track {
+    animation-play-state: paused;
+  }
+  /* Card más grande: 500px de ancho */
+  .gc-card {
+    position: relative;
+    width: 500px;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: #1a1f1c;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  @media (hover: hover) {
+    .gc-card:hover {
+      transform: skewX(0deg) scale(1.02);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+    }
+  }
+  .gc-card img {
+    transition: transform 0.3s ease;
+  }
+  .gc-card:hover img {
+    transform: scale(1.03);
+  }
+  @media (max-width: 640px) {
+    .gc-card {
+      width: 300px;
+    }
+  }
+  /* Línea divisoria más gruesa (opcional: aumentar altura) */
+  .bg-gradient-to-r {
+    height: 2px;
+  }
+</style>
+
+<script lang="js">
+  (function() {
+    // Arrastre (drag to scroll) - sin cambios
+    document.querySelectorAll('.gc-rows').forEach(rows => {
+      let isDragging = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      const wrap = rows.querySelector('.overflow-hidden');
+      const track = rows.querySelector('.gc-track');
+      if (!wrap || !track) return;
+      const startDrag = (e) => {
+        isDragging = true;
+        rows.classList.add('dragging');
+        const pageX = e.pageX ?? e.touches[0].pageX;
+        startX = pageX - wrap.offsetLeft;
+        scrollLeft = wrap.scrollLeft;
+      };
+      const onDrag = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const pageX = e.pageX ?? e.touches[0].pageX;
+        const x = pageX - wrap.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        wrap.scrollLeft = scrollLeft - walk;
+      };
+      const stopDrag = () => {
+        isDragging = false;
+        rows.classList.remove('dragging');
+      };
+      wrap.addEventListener('mousedown', startDrag);
+      window.addEventListener('mousemove', onDrag);
+      window.addEventListener('mouseup', stopDrag);
+      wrap.addEventListener('touchstart', startDrag);
+      window.addEventListener('touchmove', onDrag);
+      window.addEventListener('touchend', stopDrag);
+    });
+
+    // Modal (igual)
+    const modal = document.getElementById('global-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalCounter = document.getElementById('modal-counter');
+    const closeBtn = document.getElementById('modal-close');
+    const prevBtn = document.getElementById('modal-prev');
+    const nextBtn = document.getElementById('modal-next');
+
+    let currentImages = [];
+    let currentIndex = 0;
+
+    function openModal(imagesArray, startIndex) {
+      if (!modal || !modalImg) return;
+      currentImages = imagesArray;
+      currentIndex = startIndex;
+      updateModalImage();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updateModalImage() {
+      if (!modalImg || !currentImages[currentIndex]) return;
+      modalImg.style.opacity = '0';
+      const imgData = currentImages[currentIndex];
+      modalImg.src = imgData.src;
+      modalImg.alt = imgData.alt;
+      modalImg.onload = () => {
+        modalImg.style.opacity = '1';
+        if (modalCounter) {
+          modalCounter.textContent = `${currentIndex+1} / ${currentImages.length}`;
+        }
+      };
+    }
+
+    function nextImage() {
+      if (currentImages.length === 0) return;
+      currentIndex = (currentIndex + 1) % currentImages.length;
+      updateModalImage();
+    }
+
+    function prevImage() {
+      if (currentImages.length === 0) return;
+      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+      updateModalImage();
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (nextBtn) nextBtn.addEventListener('click', nextImage);
+    if (prevBtn) prevBtn.addEventListener('click', prevImage);
+    document.addEventListener('keydown', (e) => {
+      if (!modal || modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
+    });
+
+    // Click en cards (usando data-id para evitar duplicados)
+    document.querySelectorAll('.gc-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        const block = card.closest('.relative.py-12');
+        if (!block) return;
+        const uniqueImages = [];
+        const seen = new Set();
+        block.querySelectorAll('.gc-card').forEach(c => {
+          const id = c.dataset.id;
+          if (!seen.has(id)) {
+            seen.add(id);
+            uniqueImages.push({
+              src: c.dataset.src,
+              alt: c.dataset.alt,
+              badge: c.dataset.badge,
+              id: id
+            });
+          }
+        });
+        const clickedId = card.dataset.id;
+        const clickedIndex = uniqueImages.findIndex(img => img.id === clickedId);
+        if (clickedIndex !== -1) {
+          openModal(uniqueImages, clickedIndex);
+        }
+      });
+    });
+  })();
+</script>
