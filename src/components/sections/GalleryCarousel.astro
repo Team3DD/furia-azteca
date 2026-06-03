@@ -77,7 +77,7 @@ const galerias = [
 <section class="bg-carbon w-full">
   {galerias.map(({ uid, titulo, carpeta, data, direction, speed }, idx) => {
     const imagenes = [...data, ...data];
-    const getImageSrc = (num: string) => `/src/assets/images/galeria/${carpeta}/${carpeta}galery${num}.webp`;
+    const getImageSrc = (num: string) => `/images/galeria/${carpeta}/${carpeta}galery${num}.webp`;
     return (
       <>
         {/* Línea divisoria con gradiente (excepto en el primer bloque) */}
