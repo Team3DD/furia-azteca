@@ -9,14 +9,14 @@
       <h2 class="font-display text-4xl md:text-5xl uppercase mt-2">Inscribir a mi Equipo</h2>
       <div class="h-1 w-20 bg-dorado mx-auto mt-4"></div>
       <p class="mt-6 text-crema/70 max-w-2xl mx-auto">
-        Complete this form to participate in the tournament 
+        Complete este formulario para participar en el torneo
       </p>
     </div>
 
     <form id="playerForm" class="space-y-8">
       <!-- Selector de países (siempre visible) -->
       <div id="countryGroup">
-        <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">País de origen / Country of Origin</label>
+        <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">País de origen / Nation Confirmed</label>
         <input type="hidden" id="countryValue" name="countryValue" value="">
         <div class="relative" id="customSelectContainer">
           <button type="button" id="customSelectBtn" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema text-left flex items-center justify-between focus:outline-none focus:border-dorado transition-colors">
@@ -81,7 +81,7 @@
         </div>
       </div>
 
-      <!-- Sección dinámica de jugadores -->
+      <!-- ========= SECCIÓN DE JUGADORES COMENTADA ========= 
       <div id="playersSection" class="hidden space-y-4">
         <div class="border-t border-crema/20 pt-4">
           <h3 class="font-display text-2xl uppercase text-dorado text-center mb-4">Lista de jugadores / Player List</h3>
@@ -93,12 +93,13 @@
           </div>
         </div>
       </div>
+      ================================================ -->
 
       <div id="formStatus" class="hidden p-4 rounded-lg text-center"></div>
 
       <div class="text-center pt-4">
         <button id="actionBtn" type="button" class="relative inline-flex items-center justify-center font-display font-medium uppercase tracking-wider whitespace-nowrap transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-dorado focus-visible:ring-offset-2 focus-visible:ring-offset-hueso dark:focus-visible:ring-offset-carbon rhomboid rhomboid-hover rhomboid-corners bg-gradient-to-tl from-amber-400 via-yellow-500 to-amber-300 text-carbon hover:from-amber-500 hover:via-yellow-600 hover:to-amber-400 text-base py-2.5 px-8">
-          <span class="rhomboid-content">Lista de jugadores</span>
+          <span class="rhomboid-content">Enviar</span>
         </button>
       </div>
     </form>
@@ -136,6 +137,7 @@ const EMAIL_DESTINO = 'contacto@internationalfanscup.com';
 
 // ----- LISTA DE PAÍSES (completa) -----
 const paises = [
+  { iso: "mx", nombre: "México", flag: "fi fi-mx" },
   { iso: "de", nombre: "Alemania", flag: "fi fi-de" },
   { iso: "sa", nombre: "Arabia Saudita", flag: "fi fi-sa" },
   { iso: "ar", nombre: "Argentina", flag: "fi fi-ar" },
@@ -207,19 +209,16 @@ const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
 const phoneInput = document.getElementById('phone');
 const emailInput = document.getElementById('email');
+const instagramInput = document.getElementById('instagram');
+const facebookInput = document.getElementById('facebook');
 const actionBtn = document.getElementById('actionBtn');
 const formStatus = document.getElementById('formStatus');
-const playersSection = document.getElementById('playersSection');
-const playersContainer = document.getElementById('playersContainer');
-const addPlayerBtn = document.getElementById('addPlayerBtn');
-const removeLastPlayerBtn = document.getElementById('removeLastPlayerBtn');
 const modal = document.getElementById('customModal');
 const modalMessage = document.getElementById('modalMessage');
 const closeModalBtn = document.getElementById('closeModalBtn');
 
-// ----- Estado -----
-let players = [];     // contendrá objetos { nombre, apellido }
-let step = 'players_list'; // 'players_list' o 'submit'
+// Ya no se usan variables relacionadas con jugadores
+// const playersSection, playersContainer, addPlayerBtn, removeLastPlayerBtn, etc.
 
 // ----- Modal helper -----
 function showModal(message) {
@@ -247,7 +246,7 @@ if (modal) {
   });
 }
 
-// ----- Validar datos del capitán -----
+// ----- Validar datos del capitán (obligatorios) -----
 function validatePersonalData() {
   const firstName = firstNameInput ? firstNameInput.value.trim() : '';
   const lastName = lastNameInput ? lastNameInput.value.trim() : '';
@@ -270,7 +269,7 @@ function validatePersonalData() {
   return true;
 }
 
-// ----- Escapar HTML -----
+// ----- Escapar HTML (por si se usa en algún mensaje) -----
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/[&<>]/g, function(m) {
@@ -281,166 +280,65 @@ function escapeHtml(str) {
   });
 }
 
-// ----- Renderizar lista de jugadores -----
-function renderPlayers() {
-  if (!playersContainer) return;
-  playersContainer.innerHTML = '';
-  players.forEach(function(player, idx) {
-    const playerDiv = document.createElement('div');
-    playerDiv.className = 'grid md:grid-cols-2 gap-4 p-4 bg-carbon/40 rounded-lg border border-crema/10';
-    playerDiv.innerHTML = `
-      <div>
-        <label class="block text-xs uppercase text-dorado mb-1">Nombre Jugador / Player First Name ${idx+1}</label>
-        <input type="text" class="player-name w-full bg-carbon border border-crema/20 rounded-lg px-3 py-2 text-crema focus:outline-none focus:border-dorado" value="${escapeHtml(player.nombre)}" data-index="${idx}" data-field="nombre">
-      </div>
-      <div>
-        <label class="block text-xs uppercase text-dorado mb-1">Apellido Jugador / Player Last Name ${idx+1}</label>
-        <input type="text" class="player-lastname w-full bg-carbon border border-crema/20 rounded-lg px-3 py-2 text-crema focus:outline-none focus:border-dorado" value="${escapeHtml(player.apellido)}" data-index="${idx}" data-field="apellido">
-      </div>
-    `;
-    playersContainer.appendChild(playerDiv);
-  });
-
-  // Actualizar array al editar
-  document.querySelectorAll('.player-name').forEach(function(input) {
-    input.addEventListener('input', function(e) {
-      const target = e.target;
-      const idx = parseInt(target.getAttribute('data-index') || '0', 10);
-      if (!isNaN(idx) && players[idx]) players[idx].nombre = target.value;
-    });
-  });
-  document.querySelectorAll('.player-lastname').forEach(function(input) {
-    input.addEventListener('input', function(e) {
-      const target = e.target;
-      const idx = parseInt(target.getAttribute('data-index') || '0', 10);
-      if (!isNaN(idx) && players[idx]) players[idx].apellido = target.value;
-    });
-  });
-}
-
-function initPlayers(amount) {
-  amount = amount || 7;
-  players = [];
-  for (let i = 0; i < amount; i++) {
-    players.push({ nombre: '', apellido: '' });
-  }
-  renderPlayers();
-}
-
-function addPlayer() {
-  if (players.length >= 20) {
-    showModal('Ya has alcanzado el máximo de 20 jugadores.');
-    return false;
-  }
-  players.push({ nombre: '', apellido: '' });
-  renderPlayers();
-  return true;
-}
-
-function removeLastPlayer() {
-  if (players.length <= 1) {
-    showModal('Debes tener al menos 1 jugador. Para cumplir el mínimo agrega más usando el botón +');
-    return false;
-  }
-  players.pop();
-  renderPlayers();
-  return true;
-}
-
-function validatePlayersList() {
-  if (players.length < 7) {
-    showModal('Te faltan ' + (7 - players.length) + ' jugadores. Debes registrar al menos 7.');
-    return false;
-  }
-  if (players.length > 20) {
-    showModal('Excedes el número de jugadores. Máximo 20 (actual: ' + players.length + ').');
-    return false;
-  }
-  for (let i = 0; i < players.length; i++) {
-    if (!players[i].nombre.trim() || !players[i].apellido.trim()) {
-      showModal('El jugador ' + (i+1) + ' debe tener nombre y apellido completos.');
-      return false;
-    }
-  }
-  return true;
-}
-
+// ----- Envío final (solo capitán + redes) -----
 function submitFinal() {
   if (!validatePersonalData()) return;
-  if (!validatePlayersList()) return;
 
   const firstName = firstNameInput ? firstNameInput.value.trim() : '';
   const lastName = lastNameInput ? lastNameInput.value.trim() : '';
   const phone = phoneInput ? phoneInput.value.trim() : '';
   const email = emailInput ? emailInput.value.trim() : '';
   const country = countryValueHidden ? countryValueHidden.value : '';
+  const instagram = instagramInput ? instagramInput.value.trim() : '';
+  const facebook = facebookInput ? facebookInput.value.trim() : '';
 
-  let playersListStr = '';
-  players.forEach(function(p, idx) {
-    playersListStr += 'Jugador ' + (idx+1) + ': ' + p.nombre + ' ' + p.apellido + '\n';
-  });
-
-  // WhatsApp
-  const message = 'Nuevo registro International Fans Cup%0A%0A' +
+  // Construir mensaje para WhatsApp y correo
+  let messageBody = 
+    'Nuevo registro International Fans Cup%0A%0A' +
     '*Nombre Capitán:* ' + firstName + ' ' + lastName + '%0A' +
     '*País:* ' + country + '%0A' +
     '*Teléfono:* ' + phone + '%0A' +
-    '*Email:* ' + email + '%0A%0A' +
-    '*LISTA DE JUGADORES (' + players.length + ')*%0A' +
-    encodeURIComponent(playersListStr);
-  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + message, '_blank');
+    '*Email:* ' + email + '%0A';
+  
+  if (instagram) messageBody += '*Instagram:* ' + instagram + '%0A';
+  if (facebook) messageBody += '*Facebook:* ' + facebook + '%0A';
+  
+  // WhatsApp
+  window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + messageBody, '_blank');
 
-  // Correo
+  // Correo (sin saltos %0A, se usa encodeURIComponent para cuerpo legible)
   const subject = encodeURIComponent('Registro IFC - ' + firstName + ' ' + lastName);
-  const body = encodeURIComponent(
+  const emailBody = 
     'Nuevo registro\n\n' +
     'Nombre Capitán: ' + firstName + ' ' + lastName + '\n' +
     'País: ' + country + '\n' +
     'Teléfono: ' + phone + '\n' +
-    'Email: ' + email + '\n\n' +
-    'LISTA DE JUGADORES (' + players.length + '):\n' + playersListStr
-  );
-  window.open('mailto:' + EMAIL_DESTINO + '?subject=' + subject + '&body=' + body, '_blank');
+    'Email: ' + email + '\n' +
+    (instagram ? 'Instagram: ' + instagram + '\n' : '') +
+    (facebook ? 'Facebook: ' + facebook + '\n' : '');
+  
+  window.open('mailto:' + EMAIL_DESTINO + '?subject=' + subject + '&body=' + encodeURIComponent(emailBody), '_blank');
 
   if (formStatus) {
     formStatus.textContent = '✅ Se abrirán WhatsApp y tu correo. ¡Gracias por registrarte!';
     formStatus.classList.remove('hidden', 'bg-red-600/20', 'border-red-600');
     formStatus.classList.add('bg-green-600/20', 'border', 'border-green-600', 'text-green-200');
-    setTimeout(function() { formStatus.classList.add('hidden'); }, 6000);
-  }
-
-  // Reset completo
-  const form = document.getElementById('playerForm');
-  if (form && form.reset) form.reset();
-  // Restablecer selector de país a México
-  if (selectedCountryDisplay) {
-    selectedCountryDisplay.innerHTML = '<span class="fi fi-mx w-5 h-5"></span><span>México</span>';
-  }
-  if (countryValueHidden) countryValueHidden.value = '';
-  if (customSelectDropdown) customSelectDropdown.classList.add('hidden');
-  if (playersSection) playersSection.classList.add('hidden');
-  players = [];
-  renderPlayers();
-  step = 'players_list';
-  const actionBtnSpan = actionBtn ? actionBtn.querySelector('.rhomboid-content') : null;
-  if (actionBtnSpan) actionBtnSpan.innerHTML = 'Lista de jugadores';
-}
-
-function onMainAction() {
-  if (step === 'players_list') {
-    if (!validatePersonalData()) return;
-    initPlayers(7);
-    if (playersSection) playersSection.classList.remove('hidden');
-    step = 'submit';
-    const actionBtnSpan = actionBtn ? actionBtn.querySelector('.rhomboid-content') : null;
-    if (actionBtnSpan) actionBtnSpan.innerHTML = 'Enviar solicitud';
-    if (playersSection) playersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } else {
-    submitFinal();
+    setTimeout(function() { 
+      formStatus.classList.add('hidden');
+      // Opcional: resetear formulario después del envío
+      const form = document.getElementById('playerForm');
+      if (form && form.reset) form.reset();
+      // Restablecer selector de país a México
+      if (selectedCountryDisplay) {
+        selectedCountryDisplay.innerHTML = '<span class="fi fi-mx w-5 h-5"></span><span>México</span>';
+      }
+      if (countryValueHidden) countryValueHidden.value = '';
+      if (customSelectDropdown) customSelectDropdown.classList.add('hidden');
+    }, 6000);
   }
 }
 
-// ----- Inicialización (lazy load cuando el DOM está listo) -----
+// ----- Inicialización -----
 function initForm() {
   // Construir dropdown de países
   function buildDropdown() {
@@ -476,9 +374,8 @@ function initForm() {
   }
   buildDropdown();
 
-  if (addPlayerBtn) addPlayerBtn.addEventListener('click', addPlayer);
-  if (removeLastPlayerBtn) removeLastPlayerBtn.addEventListener('click', removeLastPlayer);
-  if (actionBtn) actionBtn.addEventListener('click', onMainAction);
+  // Acción principal: enviar formulario
+  if (actionBtn) actionBtn.addEventListener('click', submitFinal);
 }
 
 if (document.readyState === 'loading') {
