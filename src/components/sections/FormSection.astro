@@ -6,33 +6,17 @@
   <div class="max-w-5xl mx-auto px-6 md:px-10">
     <div class="text-center mb-12">
       <span class="section-label text-dorado">Convocatoria abierta</span>
-      <h2 class="font-display text-4xl md:text-5xl uppercase mt-2">Info Capitán</h2>
+      <h2 class="font-display text-4xl md:text-5xl uppercase mt-2">Inscribir a mi Equipo</h2>
       <div class="h-1 w-20 bg-dorado mx-auto mt-4"></div>
       <p class="mt-6 text-crema/70 max-w-2xl mx-auto">
-        Completa el formulario y forma parte de la selección de aficionados.
+        Complete this form to participate in the tournament 
       </p>
     </div>
 
     <form id="playerForm" class="space-y-8">
-      <!-- Tipo de jugador -->
-      <div class="grid md:grid-cols-2 gap-6">
-        <label class="flex items-center gap-3 p-4 bg-carbon/50 border border-crema/10 rounded-lg cursor-pointer hover:border-dorado transition-colors">
-          <input type="radio" name="playerType" value="mexicano" checked class="w-5 h-5 accent-dorado">
-          <span class="font-display uppercase tracking-wide flex items-center gap-2">
-            <span class="fi fi-mx w-5 h-5"></span> Jugador mexicano
-          </span>
-        </label>
-        <label class="flex items-center gap-3 p-4 bg-carbon/50 border border-crema/10 rounded-lg cursor-pointer hover:border-dorado transition-colors">
-          <input type="radio" name="playerType" value="internacional" class="w-5 h-5 accent-dorado">
-          <span class="font-display uppercase tracking-wide flex items-center gap-2">
-            🌍 Jugador internacional
-          </span>
-        </label>
-      </div>
-
-      <!-- Selector de países (solo para internacional) -->
-      <div id="countryGroup" class="hidden">
-        <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">País de origen</label>
+      <!-- Selector de países (siempre visible) -->
+      <div id="countryGroup">
+        <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">País de origen / Country of Origin</label>
         <input type="hidden" id="countryValue" name="countryValue" value="">
         <div class="relative" id="customSelectContainer">
           <button type="button" id="customSelectBtn" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema text-left flex items-center justify-between focus:outline-none focus:border-dorado transition-colors">
@@ -53,13 +37,13 @@
       <!-- Campos personales con efecto romboidal en los inputs -->
       <div class="grid md:grid-cols-2 gap-6">
         <div>
-          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Nombre</label>
+          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Nombre / First Name</label>
           <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
             <input type="text" id="firstName" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
           </div>
         </div>
         <div>
-          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Apellido</label>
+          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Apellido / Last Name</label>
           <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
             <input type="text" id="lastName" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
           </div>
@@ -68,15 +52,31 @@
 
       <div class="grid md:grid-cols-2 gap-6">
         <div>
-          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Teléfono (con código país)</label>
+          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Teléfono / Phone</label>
           <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
             <input type="tel" id="phone" required placeholder="+52 15527574349" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
           </div>
         </div>
         <div>
-          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Correo electrónico</label>
+          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">E-mail</label>
           <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
             <input type="email" id="email" required class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
+          </div>
+        </div>
+      </div>
+
+      <!-- Campos opcionales: Instagram y Facebook -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Instagram:</label>
+          <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
+            <input type="text" id="instagram" name="instagram" placeholder="personal / equipo" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
+          </div>
+        </div>
+        <div>
+          <label class="block font-body text-sm uppercase tracking-wider text-dorado mb-2">Facebook:</label>
+          <div class="md:rhomboid md:rhomboid-corners transition-all duration-150">
+            <input type="text" id="facebook" name="facebook" placeholder="personal / equipo" class="w-full bg-carbon border border-crema/20 rounded-lg px-4 py-3 text-crema focus:outline-none focus:border-dorado md:rhomboid-content transition-all duration-150">
           </div>
         </div>
       </div>
@@ -84,8 +84,8 @@
       <!-- Sección dinámica de jugadores -->
       <div id="playersSection" class="hidden space-y-4">
         <div class="border-t border-crema/20 pt-4">
-          <h3 class="font-display text-2xl uppercase text-dorado text-center mb-4">Lista de jugadores</h3>
-          <p class="text-sm text-crema/60 text-center mb-6">Mínimo 7 jugadores - Máximo 20</p>
+          <h3 class="font-display text-2xl uppercase text-dorado text-center mb-4">Lista de jugadores / Player List</h3>
+          <p class="text-sm text-crema/60 text-center mb-6">Mínimo 7 jugadores - Máximo 20 / Minimum 7 Players - Maximum 20</p>
           <div id="playersContainer" class="space-y-4 max-h-96 overflow-y-auto pr-2"></div>
           <div class="flex flex-wrap gap-4 justify-center mt-6">
             <button type="button" id="addPlayerBtn" class="px-4 py-2 text-sm font-body uppercase tracking-wider border border-dorado text-dorado rounded-lg hover:bg-dorado/10 transition">+ Agregar jugador</button>
@@ -197,8 +197,6 @@ const paises = [
 ];
 
 // ----- DOM elements -----
-const radioMexicano = document.querySelector('input[value="mexicano"]');
-const radioInternacional = document.querySelector('input[value="internacional"]');
 const countryGroup = document.getElementById('countryGroup');
 const customSelectBtn = document.getElementById('customSelectBtn');
 const customSelectDropdown = document.getElementById('customSelectDropdown');
@@ -263,14 +261,11 @@ function validatePersonalData() {
     showModal('Correo electrónico no válido.');
     return false;
   }
-  const playerTypeRadio = document.querySelector('input[name="playerType"]:checked');
-  const playerType = playerTypeRadio ? playerTypeRadio.value : null;
-  if (playerType === 'internacional') {
-    const country = countryValueHidden ? countryValueHidden.value : '';
-    if (!country) {
-      showModal('Por favor selecciona tu país de origen.');
-      return false;
-    }
+  // Validar país
+  const country = countryValueHidden ? countryValueHidden.value : '';
+  if (!country) {
+    showModal('Por favor selecciona tu país de origen.');
+    return false;
   }
   return true;
 }
@@ -295,11 +290,11 @@ function renderPlayers() {
     playerDiv.className = 'grid md:grid-cols-2 gap-4 p-4 bg-carbon/40 rounded-lg border border-crema/10';
     playerDiv.innerHTML = `
       <div>
-        <label class="block text-xs uppercase text-dorado mb-1">Nombre Jugador ${idx+1}</label>
+        <label class="block text-xs uppercase text-dorado mb-1">Nombre Jugador / Player First Name ${idx+1}</label>
         <input type="text" class="player-name w-full bg-carbon border border-crema/20 rounded-lg px-3 py-2 text-crema focus:outline-none focus:border-dorado" value="${escapeHtml(player.nombre)}" data-index="${idx}" data-field="nombre">
       </div>
       <div>
-        <label class="block text-xs uppercase text-dorado mb-1">Apellido Jugador ${idx+1}</label>
+        <label class="block text-xs uppercase text-dorado mb-1">Apellido Jugador / Player Last Name ${idx+1}</label>
         <input type="text" class="player-lastname w-full bg-carbon border border-crema/20 rounded-lg px-3 py-2 text-crema focus:outline-none focus:border-dorado" value="${escapeHtml(player.apellido)}" data-index="${idx}" data-field="apellido">
       </div>
     `;
@@ -378,14 +373,7 @@ function submitFinal() {
   const lastName = lastNameInput ? lastNameInput.value.trim() : '';
   const phone = phoneInput ? phoneInput.value.trim() : '';
   const email = emailInput ? emailInput.value.trim() : '';
-  const playerTypeRadio = document.querySelector('input[name="playerType"]:checked');
-  const playerType = playerTypeRadio ? playerTypeRadio.value : '';
-  let country = '';
-  if (playerType === 'internacional') {
-    country = countryValueHidden ? countryValueHidden.value : '';
-  } else {
-    country = 'México';
-  }
+  const country = countryValueHidden ? countryValueHidden.value : '';
 
   let playersListStr = '';
   players.forEach(function(p, idx) {
@@ -394,7 +382,6 @@ function submitFinal() {
 
   // WhatsApp
   const message = 'Nuevo registro International Fans Cup%0A%0A' +
-    '*Tipo:* ' + (playerType === 'mexicano' ? 'Mexicano' : 'Internacional') + '%0A' +
     '*Nombre Capitán:* ' + firstName + ' ' + lastName + '%0A' +
     '*País:* ' + country + '%0A' +
     '*Teléfono:* ' + phone + '%0A' +
@@ -407,7 +394,6 @@ function submitFinal() {
   const subject = encodeURIComponent('Registro IFC - ' + firstName + ' ' + lastName);
   const body = encodeURIComponent(
     'Nuevo registro\n\n' +
-    'Tipo: ' + (playerType === 'mexicano' ? 'Mexicano' : 'Internacional') + '\n' +
     'Nombre Capitán: ' + firstName + ' ' + lastName + '\n' +
     'País: ' + country + '\n' +
     'Teléfono: ' + phone + '\n' +
@@ -426,8 +412,7 @@ function submitFinal() {
   // Reset completo
   const form = document.getElementById('playerForm');
   if (form && form.reset) form.reset();
-  if (countryGroup) countryGroup.classList.add('hidden');
-  if (radioMexicano) radioMexicano.checked = true;
+  // Restablecer selector de país a México
   if (selectedCountryDisplay) {
     selectedCountryDisplay.innerHTML = '<span class="fi fi-mx w-5 h-5"></span><span>México</span>';
   }
@@ -457,16 +442,6 @@ function onMainAction() {
 
 // ----- Inicialización (lazy load cuando el DOM está listo) -----
 function initForm() {
-  // Mostrar/ocultar selector de país según tipo de jugador
-  if (radioMexicano && radioInternacional) {
-    radioMexicano.addEventListener('change', function() {
-      if (radioMexicano.checked && countryGroup) countryGroup.classList.add('hidden');
-    });
-    radioInternacional.addEventListener('change', function() {
-      if (radioInternacional.checked && countryGroup) countryGroup.classList.remove('hidden');
-    });
-  }
-
   // Construir dropdown de países
   function buildDropdown() {
     if (!customSelectDropdown) return;
