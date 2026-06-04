@@ -38,7 +38,7 @@ import { Button } from "../ui/button";
         <span class="section-label">Selección Mexicana de Aficionados</span>
       </div>
 
-      <h1 id="hero-title" class="font-display text-white uppercase leading-none">
+      <h1 id="hero-title" class="font-display text-white uppercase leading-none [text-shadow:_0_2px_10px_rgba(0,0,0,0.7)]">
         <span class="block text-5xl md:text-7xl"> International</span>
         <span class="block text-5xl md:text-7xl"> Fans Cup</span>
         <span class="block text-xl md:text-2xl text-white/40 mt-3 tracking-widest">
@@ -46,7 +46,7 @@ import { Button } from "../ui/button";
         </span>
       </h1>
 
-      <p class="font-body text-white/60 text-md leading-relaxed max-w-md">
+      <p class="font-body text-white text-md leading-relaxed max-w-md [text-shadow:_0_2px_10px_rgba(0,0,0,0.7)]">
         Somos una comunidad de aficionados internacionales que desde hace 12 años buscan promover el deporte más hermoso del mundo y la hermandad entre naciones jugando un torneo cada 4 años en el marco de la justa deportiva del deporte mas hermoso del mundo - NO ESTAMOS AFILIADOS NI ASOCIADOS DE NINGUNA FORMA A LA FIFA WORLD CUP ™️ este es un torneo de fans independiente from fans to fans. 
       </p>
 
@@ -58,7 +58,7 @@ import { Button } from "../ui/button";
           variant="outline" 
           color="verde" 
           size="lg" 
-          className="!border-white/30 !text-white hover:!bg-white hover:!text-carbon"
+          className="!border-amber-500 !bg-amber-50 !text-carbon md:!border-white/30 md:!bg-transparent md:!text-white hover:md:!bg-white hover:md:!text-carbon"
         >
           Historia
         </Button>
@@ -67,9 +67,9 @@ import { Button } from "../ui/button";
       <!-- Indicadores de ediciones -->
       <div class="flex items-center gap-6 pt-4">
         {[
-          { year: '2018', place: 'Rusia', href: '/mundiales/rusia-2018' },
-          { year: '2022', place: 'Qatar', href: '/mundiales/qatar-2022' },
-          { year: '2026', place: 'MX · USA · CA', href: '/mundiales/2026' },
+          { year: '2018', place: 'Rusia', href: '/https://www.instagram.com/internationalfanscupmx/' },
+          { year: '2022', place: 'Qatar', href: '/https://www.instagram.com/internationalfanscupmx/' },
+          { year: '2026', place: 'Mexico City', href: 'https://www.instagram.com/internationalfanscupmx/' },
           { year: 'Aviso', place: 'de privacidad', href: 'https://furiaazteca.com/' },
         ].map(({ year, place, href }) => (
           <a href={href} class="group text-center">
@@ -104,15 +104,15 @@ import { Button } from "../ui/button";
       <!-- Tarjeta 2 -->
       <a href="/#historia" class="rhomboid rhomboid-corners rhomboid-hover w-full max-w-sm bg-dorado/20 border border-dorado/40 p-5 block">
         <div class="rhomboid-content flex flex-col items-center text-center gap-3">
-          <div class="w-12 h-12 bg-dorado flex items-center justify-center shrink-0">
-            <span class="font-display text-white text-sm font-bold">26</span>
+          <div class="w-12 h-12 flex items-center justify-center shrink-0">
+            <span class="font-display text-white text-4xl font-bold">🌎</span>
           </div>
           <div>
             <p class="font-display text-white uppercase text-lg tracking-widest">
               Mundialito de Fans Mexico City
             </p>
             <p class="font-body text-white/40 text-sm mt-1">
-              México · Estados Unidos · Canadá
+              Form Fans to Fans
             </p>
           </div>
         </div>

@@ -1,249 +1,397 @@
 ---
-// AboutGallery.astro
-// Galería multimedia con imágenes y videos (con TypeScript no intrusivo)
-interface GalleryItem {
-  id: number | string;
-  type: 'image' | 'video';
-  src: string;
-  videoUrl?: string;
+// src/components/sections/GalleryCarousel.astro
+// Badge con rhomboid-corners-only, sin CTA, línea divisoria con gradiente, cards grandes.
+// Soporta imágenes y vídeos desde la carpeta "furia". Placeholder para vídeos rotos.
+
+interface MediaData {
+  num: string;
+  badge: string;
   alt: string;
-  badge?: string;
+  type: "image" | "video";
 }
 
-const defaultItems: GalleryItem[] = [
-  { id: 1, type: 'image', src: 'https://picsum.photos/id/104/800/600', alt: 'Jugadores en concentración', badge: 'Detrás de cámaras' },
-  { id: 2, type: 'image', src: 'https://picsum.photos/id/40/800/600', alt: 'Afición en el estadio', badge: 'Pasión' },
-  { id: 3, type: 'video', src: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', alt: 'Momento especial', badge: 'Video' },
-  { id: 4, type: 'image', src: 'https://picsum.photos/id/15/800/600', alt: 'Entrenamiento', badge: 'Preparación' },
-  { id: 5, type: 'video', src: 'https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg', videoUrl: 'https://www.youtube.com/watch?v=9bZkp7q19f0', alt: 'Celebración', badge: 'Emoción' },
-  { id: 6, type: 'image', src: 'https://picsum.photos/id/20/800/600', alt: 'Conferencia', badge: 'Rueda de prensa' },
+// ========== DATOS DE EJEMPLO (cámbialos según tu contenido real) ==========
+const furiaData: MediaData[] = [
+  { num: "01", badge: "Inicio",        alt: "Furia Azteca presentación", type: "image" },
+  { num: "02", badge: "Pasión",        alt: "Afición cantando",           type: "video" },
+  { num: "03", badge: "Equipo",        alt: "Foto grupal",                 type: "image" },
+  { num: "04", badge: "Gol",           alt: "Celebración de gol",          type: "video" },
+  { num: "05", badge: "Viaje",         alt: "Llegada a la sede",           type: "image" },
+  { num: "06", badge: "Entrenamiento", alt: "Práctica previa",             type: "image" },
+  { num: "07", badge: "Afición",       alt: "Marea verde en las gradas",   type: "video" },
 ];
 
-const { title = "Galería Multimedia", subtitle = "Imágenes y videos exclusivos", items = defaultItems } = Astro.props;
+const galerias = [
+  {
+    uid:       "gc-furia",
+    titulo:    "Furia Azteca",
+    carpeta:   "furia",
+    data:      furiaData,
+    direction: "fwd",
+    speed:     80,
+  },
+];
+// ========== FIN DE DATOS ==========
+
+// Función para obtener la ruta del medio
+const getMediaSrc = (num: string, type: "image" | "video") => {
+  const extension = type === "image" ? "webp" : "mp4";
+  return `/images/galeria/furia/furia${num}.${extension}`;
+};
+
+// Placeholder universal para vídeos (debe existir en /public/video.mp4)
+const VIDEO_PLACEHOLDER = "/video.mp4";
 ---
 
-<section class="bg-carbon w-full py-16 md:py-24">
-  <div class="container mx-auto px-4 md:px-8">
-    <header class="text-center mb-12 md:mb-16">
-      <span class="section-label text-dorado text-sm uppercase tracking-[0.2em] font-display">Revive los momentos</span>
-      <h2 class="section-title text-crema text-3xl md:text-4xl lg:text-5xl font-bold mt-2">{title}</h2>
-      {subtitle && <p class="text-crema/70 mt-4 max-w-2xl mx-auto">{subtitle}</p>}
-    </header>
+<section class="bg-carbon w-full">
+  {galerias.map(({ uid, titulo, data, direction, speed }, idx) => {
+    const imagenes = [...data, ...data]; // duplicar para efecto infinito
+    return (
+      <>
+        {idx > 0 && (
+          <div class="w-full h-px bg-gradient-to-r from-transparent via-dorado to-transparent my-8" aria-hidden="true"></div>
+        )}
+        <div id={uid} class="relative py-12 overflow-hidden">
+          <header class="relative z-10 text-center mb-12">
+            <span class="section-label">Galería Oficial</span>
+            <h2 class="section-title text-crema">{titulo}</h2>
+          </header>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
-      {items.map((item: GalleryItem) => (
-        <button
-          class="group relative aspect-video overflow-hidden rounded-lg bg-carbon-light shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-dorado/50"
-          data-gallery-item
-          data-id={item.id}
-          data-type={item.type}
-          data-src={item.src}
-          data-video-url={item.videoUrl || ''}
-          data-alt={item.alt}
-          data-badge={item.badge || ''}
-          aria-label={`Abrir ${item.type === 'video' ? 'video' : 'imagen'}: ${item.alt}`}
-        >
-          <img src={item.src} alt={item.alt} loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          
-          {item.badge && (
-            <div class="absolute top-3 left-3 z-10">
-              <span class="inline-block font-display text-[11px] sm:text-xs uppercase tracking-wider bg-dorado text-carbon px-2 py-1 rounded-sm">{item.badge}</span>
-            </div>
-          )}
-          
-          {item.type === 'video' && (
-            <div class="absolute inset-0 flex items-center justify-center z-10">
-              <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-dorado/90 text-carbon flex items-center justify-center transition-transform group-hover:scale-110 group-hover:bg-dorado">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" /></svg>
+          <div class="relative z-10 gc-rows" data-direction={direction} style={`--speed: ${speed}s;`}>
+            <div class="overflow-hidden py-4 mask-fade-horizontal">
+              <div class="flex gap-10 w-max gc-track">
+                {imagenes.map((media, i) => (
+                  <button
+                    class="gc-card rhomboid rhomboid-corners group"
+                    type="button"
+                    data-id={media.num}
+                    data-src={getMediaSrc(media.num, media.type)}
+                    data-alt={media.alt}
+                    data-badge={media.badge}
+                    data-type={media.type}
+                    aria-label={media.alt}
+                    tabindex={i < data.length ? "0" : "-1"}
+                    aria-hidden={i >= data.length ? "true" : undefined}
+                  >
+                    {media.type === "image" ? (
+                      <img
+                        src={getMediaSrc(media.num, "image")}
+                        alt={media.alt}
+                        loading="lazy"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-300"
+                        onerror="this.onerror=null; this.src='/images/fallback.webp';"
+                      />
+                    ) : (
+                      <video
+                        src={getMediaSrc(media.num, "video")}
+                        class="absolute inset-0 w-full h-full object-cover"
+                        muted
+                        loop
+                        playsinline
+                        autoplay
+                        onerror="this.onerror=null; this.src='/video.mp4';"
+                      ></video>
+                    )}
+                    <!-- Badge -->
+                    <div class="absolute top-4 sm:top-6 left-4 sm:left-6 z-10">
+                      <span class="rhomboid-corners-only inline-block font-display text-xs sm:text-sm uppercase tracking-widest bg-dorado text-carbon group-hover:bg-carbon group-hover:text-crema px-2 py-1 sm:px-3 sm:py-1 transition-all duration-200">
+                        {media.badge}
+                      </span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-3 z-10 transition-transform duration-300 group-hover:translate-y-[-2px]">
+                      <span class="block w-6 h-0.5 bg-dorado mb-2 transition-all duration-200 group-hover:w-8"></span>
+                      <p class="font-display text-xs uppercase tracking-wide text-white drop-shadow-md line-clamp-2">{media.alt}</p>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
-          )}
-          
-          <div class="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/80 to-transparent z-10">
-            <p class="text-white text-xs md:text-sm font-display truncate">{item.alt}</p>
           </div>
-        </button>
-      ))}
-    </div>
-  </div>
+        </div>
+      </>
+    );
+  })}
 </section>
 
-<!-- Modal lightbox unificado -->
-<div id="about-gallery-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-  <div class="relative w-full max-w-5xl max-h-[90vh]">
-    <button id="about-modal-close" class="absolute -top-12 right-0 md:-right-12 md:top-0 text-dorado hover:text-white bg-black/40 hover:bg-black/60 rounded-full w-10 h-10 flex items-center justify-center text-2xl transition-all">✕</button>
-    <button id="about-modal-prev" class="absolute left-2 top-1/2 -translate-y-1/2 md:-left-14 bg-black/40 hover:bg-black/60 rounded-full w-12 h-12 flex items-center justify-center text-dorado text-3xl">‹</button>
-    <div class="flex items-center justify-center w-full h-full rounded-xl overflow-hidden bg-black/40">
-      <div id="about-modal-content" class="w-full h-full flex items-center justify-center"></div>
-    </div>
-    <button id="about-modal-next" class="absolute right-2 top-1/2 -translate-y-1/2 md:-right-14 bg-black/40 hover:bg-black/60 rounded-full w-12 h-12 flex items-center justify-center text-dorado text-3xl">›</button>
-    <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
-      <p id="about-modal-counter" class="text-dorado text-xs tracking-wider font-mono"></p>
-      <p id="about-modal-caption" class="text-crema/80 text-sm max-w-md text-center hidden md:block"></p>
-    </div>
+<!-- Modal global mejorado (tamaño completo y placeholder) -->
+<div id="global-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90 backdrop-blur-md transition-all">
+  <div class="relative w-full h-full flex items-center justify-center">
+    <button id="modal-close" class="absolute top-4 right-4 z-10 text-dorado bg-black/50 hover:bg-black/70 rounded-full w-12 h-12 flex items-center justify-center text-3xl transition-all hover:rotate-90">✕</button>
+    <button id="modal-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 rounded-full w-12 h-12 flex items-center justify-center text-dorado text-4xl transition-all">‹</button>
+    <button id="modal-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 rounded-full w-12 h-12 flex items-center justify-center text-dorado text-4xl transition-all">›</button>
+    
+    <div id="modal-media-container" class="flex items-center justify-center w-full h-full p-4"></div>
+    
+    <p id="modal-counter" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-dorado text-sm tracking-[0.2em] font-mono bg-black/50 px-4 py-1 rounded-full">1 / 1</p>
   </div>
 </div>
 
-<style is:global>
-  .video-responsive {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%;
+<style>
+  /* Máscara de desvanecimiento */
+  .mask-fade-horizontal {
+    mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
   }
-  .video-responsive iframe,
-  .video-responsive video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 0.75rem;
+  /* Carrusel infinito */
+  .gc-rows {
+    --speed: 80s;
+  }
+  .gc-rows[data-direction="fwd"] .gc-track {
+    animation: scrollFwd var(--speed) linear infinite;
+  }
+  .gc-rows[data-direction="rev"] .gc-track {
+    animation: scrollRev var(--speed) linear infinite;
+  }
+  @keyframes scrollFwd {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-50% - 1.25rem)); }
+  }
+  @keyframes scrollRev {
+    from { transform: translateX(calc(-50% - 1.25rem)); }
+    to   { transform: translateX(0); }
+  }
+  .gc-rows:hover .gc-track,
+  .gc-rows.dragging .gc-track {
+    animation-play-state: paused;
+  }
+  /* Cards */
+  .gc-card {
+    position: relative;
+    width: 500px;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: #1a1f1c;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  @media (hover: hover) {
+    .gc-card:hover {
+      transform: skewX(0deg) scale(1.02);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+    }
+  }
+  .gc-card img,
+  .gc-card video {
+    transition: transform 0.3s ease;
+  }
+  .gc-card:hover img,
+  .gc-card:hover video {
+    transform: scale(1.03);
+  }
+  @media (max-width: 640px) {
+    .gc-card {
+      width: 300px;
+    }
+  }
+  /* Línea divisoria */
+  .bg-gradient-to-r {
+    height: 2px;
+  }
+  /* Modal: contenido centrado y responsive */
+  #global-modal {
+    display: none;
+  }
+  #global-modal.flex {
+    display: flex !important;
+  }
+  #modal-media-container img,
+  #modal-media-container video {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  }
+  #modal-media-container video {
+    background: black;
   }
 </style>
 
 <script lang="js">
-// @ts-nocheck
-(function() {
-  const modal = document.getElementById('about-gallery-modal');
-  const modalContent = document.getElementById('about-modal-content');
-  const closeBtn = document.getElementById('about-modal-close');
-  const prevBtn = document.getElementById('about-modal-prev');
-  const nextBtn = document.getElementById('about-modal-next');
-  const counterSpan = document.getElementById('about-modal-counter');
-  const captionSpan = document.getElementById('about-modal-caption');
+  (function() {
+    // Arrastre (drag to scroll)
+    document.querySelectorAll('.gc-rows').forEach(rows => {
+      let isDragging = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      const wrap = rows.querySelector('.overflow-hidden');
+      const track = rows.querySelector('.gc-track');
+      if (!wrap || !track) return;
 
-  let galleryItems = [];
-  let currentIndex = 0;
-  let currentMediaElement = null;
-
-  function collectGalleryItems() {
-    const buttons = document.querySelectorAll('[data-gallery-item]');
-    const items = [];
-    buttons.forEach(btn => {
-      items.push({
-        type: btn.dataset.type,
-        src: btn.dataset.src,
-        videoUrl: btn.dataset.videoUrl || '',
-        alt: btn.dataset.alt || '',
-        badge: btn.dataset.badge || '',
-        id: btn.dataset.id
-      });
+      const startDrag = (e) => {
+        isDragging = true;
+        rows.classList.add('dragging');
+        const pageX = e.pageX ?? e.touches[0].pageX;
+        startX = pageX - wrap.offsetLeft;
+        scrollLeft = wrap.scrollLeft;
+      };
+      const onDrag = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const pageX = e.pageX ?? e.touches[0].pageX;
+        const x = pageX - wrap.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        wrap.scrollLeft = scrollLeft - walk;
+      };
+      const stopDrag = () => {
+        isDragging = false;
+        rows.classList.remove('dragging');
+      };
+      wrap.addEventListener('mousedown', startDrag);
+      window.addEventListener('mousemove', onDrag);
+      window.addEventListener('mouseup', stopDrag);
+      wrap.addEventListener('touchstart', startDrag);
+      window.addEventListener('touchmove', onDrag);
+      window.addEventListener('touchend', stopDrag);
     });
-    return items;
-  }
 
-  function renderModalContent(item) {
-    if (!modalContent) return;
-    if (currentMediaElement) {
-      if (currentMediaElement.tagName === 'IFRAME') currentMediaElement.src = '';
-      else if (currentMediaElement.tagName === 'VIDEO') currentMediaElement.pause();
-      currentMediaElement = null;
-    }
-    modalContent.innerHTML = '';
+    // Modal mejorado: soporta imágenes y vídeos
+    const modal = document.getElementById('global-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalCounter = document.getElementById('modal-counter');
+    const closeBtn = document.getElementById('modal-close');
+    const prevBtn = document.getElementById('modal-prev');
+    const nextBtn = document.getElementById('modal-next');
 
-    if (item.type === 'image') {
-      const img = document.createElement('img');
-      img.src = item.src;
-      img.alt = item.alt;
-      img.className = 'max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl transition-opacity duration-200';
-      img.style.opacity = '0';
-      img.onload = () => img.style.opacity = '1';
-      modalContent.appendChild(img);
-      currentMediaElement = img;
+    let currentItems = [];     // { src, alt, type, id }
+    let currentIndex = 0;
+    let currentVideoElement = null; // para gestionar el vídeo dinámico
+
+    // Función para limpiar y restaurar el modal a su estado original (solo imagen)
+    function resetModalToImageOnly() {
+      if (currentVideoElement) {
+        currentVideoElement.pause();
+        currentVideoElement.remove();
+        currentVideoElement = null;
+      }
+      modalImg.style.display = '';    // aseguramos que se vea
+      modalImg.src = '';
+      modalImg.alt = '';
+      modalImg.style.opacity = '0';
     }
-    else if (item.type === 'video' && item.videoUrl) {
-      const url = item.videoUrl;
-      let embedUrl = '';
-      if (url.includes('youtube.com/watch') || url.includes('youtu.be')) {
-        let videoId = '';
-        if (url.includes('youtu.be')) videoId = url.split('/').pop()?.split('?')[0] || '';
-        else videoId = new URLSearchParams(url.split('?')[1]).get('v') || '';
-        if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-      } else if (url.includes('vimeo.com')) {
-        const vimeoId = url.split('/').pop()?.split('?')[0] || '';
-        if (vimeoId) embedUrl = `https://player.vimeo.com/video/${vimeoId}?autoplay=1`;
-      } else if (/\.(mp4|webm|ogg)$/i.test(url)) {
+
+    function openModal(itemsArray, startIndex) {
+      if (!modal || !modalImg) return;
+      currentItems = itemsArray;
+      currentIndex = startIndex;
+      resetModalToImageOnly();    // limpia cualquier vídeo previo
+      updateModalMedia();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updateModalMedia() {
+      if (!currentItems.length || !currentItems[currentIndex]) return;
+      const item = currentItems[currentIndex];
+
+      // Reseteamos el estado visual
+      resetModalToImageOnly();
+
+      if (item.type === 'image') {
+        // Mostramos la imagen dentro del <img> existente
+        modalImg.style.display = 'block';
+        modalImg.style.opacity = '0';
+        modalImg.src = item.src;
+        modalImg.alt = item.alt;
+        modalImg.onload = () => {
+          modalImg.style.opacity = '1';
+        };
+        modalImg.onerror = () => {
+          modalImg.onerror = null;
+          modalImg.src = '/images/fallback.webp'; // imagen por defecto
+        };
+      } 
+      else if (item.type === 'video') {
+        // Ocultamos la imagen y creamos un <video> en su lugar
+        modalImg.style.display = 'none';
         const video = document.createElement('video');
-        video.src = url;
+        video.src = item.src;
         video.controls = true;
         video.autoplay = true;
-        video.className = 'w-full max-h-[85vh] rounded-lg';
-        modalContent.appendChild(video);
-        currentMediaElement = video;
-        video.play().catch(e => console.warn(e));
-        if (counterSpan) counterSpan.textContent = `${currentIndex+1} / ${galleryItems.length}`;
-        if (captionSpan) captionSpan.textContent = item.alt;
-        return;
+        video.loop = false;
+        video.muted = false;
+        video.className = 'max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl';
+        video.style.display = 'block';
+        video.onerror = () => {
+          video.onerror = null;
+          video.src = '/video.mp4';   // placeholder universal
+          video.load();
+          video.play().catch(e => console.warn('Placeholder autoplay error', e));
+        };
+        // Insertamos el vídeo justo después del contenedor de la imagen (dentro del mismo div)
+        const parentDiv = modalImg.parentNode;
+        parentDiv.appendChild(video);
+        currentVideoElement = video;
+        video.play().catch(e => console.warn('Autoplay bloqueado:', e));
       }
-      if (embedUrl) {
-        const container = document.createElement('div');
-        container.className = 'video-responsive';
-        const iframe = document.createElement('iframe');
-        iframe.src = embedUrl;
-        iframe.title = item.alt;
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-        iframe.allowFullscreen = true;
-        container.appendChild(iframe);
-        modalContent.appendChild(container);
-        currentMediaElement = iframe;
-      } else {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'text-white text-center p-8';
-        errorDiv.innerText = 'No se pudo cargar el video.';
-        modalContent.appendChild(errorDiv);
+
+      // Actualizar contador
+      if (modalCounter) {
+        modalCounter.textContent = `${currentIndex+1} / ${currentItems.length}`;
       }
     }
-    if (counterSpan) counterSpan.textContent = `${currentIndex+1} / ${galleryItems.length}`;
-    if (captionSpan) captionSpan.textContent = item.alt;
-  }
 
-  function openModal(index) {
-    if (!modal || galleryItems.length === 0) return;
-    currentIndex = (index + galleryItems.length) % galleryItems.length;
-    renderModalContent(galleryItems[currentIndex]);
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    if (!modal) return;
-    modal.classList.add('hidden');
-    document.body.style.overflow = '';
-    if (currentMediaElement) {
-      if (currentMediaElement.tagName === 'IFRAME') currentMediaElement.src = '';
-      else if (currentMediaElement.tagName === 'VIDEO') currentMediaElement.pause();
-      currentMediaElement = null;
+    function nextMedia() {
+      if (currentItems.length === 0) return;
+      currentIndex = (currentIndex + 1) % currentItems.length;
+      updateModalMedia();
     }
-    if (modalContent) modalContent.innerHTML = '';
-  }
 
-  function nextItem() { if (galleryItems.length) { currentIndex = (currentIndex + 1) % galleryItems.length; renderModalContent(galleryItems[currentIndex]); } }
-  function prevItem() { if (galleryItems.length) { currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length; renderModalContent(galleryItems[currentIndex]); } }
+    function prevMedia() {
+      if (currentItems.length === 0) return;
+      currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
+      updateModalMedia();
+    }
 
-  closeBtn?.addEventListener('click', closeModal);
-  nextBtn?.addEventListener('click', nextItem);
-  prevBtn?.addEventListener('click', prevItem);
-  document.addEventListener('keydown', (e) => {
-    if (!modal || modal.classList.contains('hidden')) return;
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'ArrowRight') nextItem();
-    if (e.key === 'ArrowLeft') prevItem();
-  });
-  modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    function closeModal() {
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+      resetModalToImageOnly();
+    }
 
-  function init() {
-    galleryItems = collectGalleryItems();
-    document.querySelectorAll('[data-gallery-item]').forEach((card, idx) => {
+    // Eventos
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (nextBtn) nextBtn.addEventListener('click', nextMedia);
+    if (prevBtn) prevBtn.addEventListener('click', prevMedia);
+    document.addEventListener('keydown', (e) => {
+      if (!modal || modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowRight') nextMedia();
+      if (e.key === 'ArrowLeft') prevMedia();
+    });
+
+    // Click en cards (lee data-type, data-src, data-alt, data-id)
+    document.querySelectorAll('.gc-card').forEach(card => {
       card.addEventListener('click', (e) => {
         e.preventDefault();
-        const found = galleryItems.findIndex(i => i.id === card.dataset.id);
-        openModal(found !== -1 ? found : idx);
+        const block = card.closest('.relative.py-12');
+        if (!block) return;
+        const uniqueItems = [];
+        const seen = new Set();
+        block.querySelectorAll('.gc-card').forEach(c => {
+          const id = c.dataset.id;
+          if (!seen.has(id)) {
+            seen.add(id);
+            uniqueItems.push({
+              src: c.dataset.src,
+              alt: c.dataset.alt,
+              badge: c.dataset.badge,
+              type: c.dataset.type,    // "image" o "video"
+              id: id
+            });
+          }
+        });
+        const clickedId = card.dataset.id;
+        const clickedIndex = uniqueItems.findIndex(item => item.id === clickedId);
+        if (clickedIndex !== -1) {
+          openModal(uniqueItems, clickedIndex);
+        }
       });
     });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();
+  })();
 </script>
