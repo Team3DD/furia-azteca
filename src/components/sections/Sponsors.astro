@@ -1,15 +1,16 @@
 ---
 // src/components/sections/Sponsors.astro
 
+// Define cada sponsor con su imagen y enlace (cambia las URLs por las reales)
 const sponsors = [
-  "images/sponsors/sponsor1.png",
-  "images/sponsors/sponsor2.png",
-  "images/sponsors/sponsor3.png",
-  "images/sponsors/sponsor4.png",
-  "images/sponsors/sponsor5.png",
-  "images/sponsors/sponsor6.png",
-  "images/sponsors/sponsor7.png",
-  "images/sponsors/sponsor8.png",
+  { img: "images/sponsors/sponsor1.png", link: "" },
+  { img: "images/sponsors/sponsor2.png", link: "" },
+  { img: "images/sponsors/sponsor3.png", link: "https://www.instagram.com/socorrotequila?igsh=MmU3NGlybnlzd2Qw" },
+  { img: "images/sponsors/sponsor4.png", link: "" },
+  { img: "images/sponsors/sponsor5.png", link: "" },
+  { img: "images/sponsors/sponsor6.png", link: "" },
+  { img: "images/sponsors/sponsor7.png", link: "https://www.instagram.com/hospitalcovadongaver?igsh=NTY0YXZpYnV5OW95" },
+  { img: "images/sponsors/sponsor8.png", link: "https://www.instagram.com/bryanb.clutch?utm_source=qr" },
 ];
 ---
 
@@ -24,15 +25,20 @@ const sponsors = [
 
     <div class="relative overflow-hidden">
       <div class="sponsors-track">
-        {[...sponsors, ...sponsors].map((logo) => (
-          <div class="flex-shrink-0">
+        {[...sponsors, ...sponsors].map((sponsor) => (
+          <a
+            href={sponsor.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex-shrink-0 hover:opacity-80 transition-opacity duration-300"
+          >
             <img
-              src={logo}
+              src={sponsor.img}
               alt="Sponsor"
               class="h-[100px] w-auto object-contain"
               loading="lazy"
             />
-          </div>
+          </a>
         ))}
       </div>
     </div>
