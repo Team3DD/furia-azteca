@@ -1,0 +1,25 @@
+---
+const {
+  title = "Instagram",
+  subtitle = "Sigue nuestras actividades y eventos"
+} = Astro.props;
+---
+
+<section class="py-16 bg-carbon">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-10">
+      <h2 class="font-display text-4xl md:text-5xl uppercase tracking-widest text-dorado">
+        {title}
+      </h2>
+
+      <p class="mt-4 text-white/80 max-w-2xl mx-auto">
+        {subtitle}
+      </p>
+    </div>
+
+    <div
+      class="elfsight-app-4274add2-a046-4186-b885-9743f9f8823d"
+      data-elfsight-app-lazy>
+    </div>
+  </div>
+</section>

@@ -8,12 +8,12 @@ interface Props {
   description?: string;
   ogImage?: string;
   class?: string;
-  noIndex?: boolean;   // para páginas que no quieras en buscadores (ej. gracias, privacidad)
+  noIndex?: boolean;
 }
 
 const {
   title,
-  description = 'Selección Mexicana de Aficionados — Comunidad oficial de fans de México rumbo al Mundial 2026.',
+  description = 'Selección Mexicana de Aficionados Comunidad oficial de fans de México 2026.',
   ogImage = '/og-default.jpg',
   class: className,
   noIndex = false,
@@ -21,12 +21,10 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-// Construir URL absoluta para og:image
 const absoluteOgImage = ogImage.startsWith('http')
   ? ogImage
   : new URL(ogImage, Astro.site).href;
 
-// Control de robots
 const robotsContent = noIndex ? 'noindex, nofollow' : 'index, follow';
 ---
 
@@ -34,41 +32,58 @@ const robotsContent = noIndex ? 'noindex, nofollow' : 'index, follow';
 <html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="canonical" href={canonicalURL} />
-    <meta name="robots" content={robotsContent} />
-    <meta name="author" content="International Fans Cup" />
-    <meta name="theme-color" content="#1a2a3a" /> <!-- ajusta a tu color primario -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
 
     <title>{title} | International Fans Cup</title>
-    <meta name="description" content={description} />
 
-    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+    <meta name="description" content={description} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="author" content="International Fans Cup" />
+    <meta name="theme-color" content="#1a2a3a" />
+
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
     <meta property="og:title" content={`${title} | International Fans Cup`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteOgImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/jpeg" /> <!-- o image/png -->
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_MX" />
     <meta property="og:site_name" content="International Fans Cup" />
 
-    <!-- Twitter Card -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} | International Fans Cup`} />
+    <meta
+      name="twitter:title"
+      content={`${title} | International Fans Cup`}
+    />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteOgImage} />
 
-    <!-- Favicon -->
+    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" /> <!-- compatibilidad extra -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <!-- Flag icons CSS (para banderas) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@6.11.0/css/flag-icons.min.css" />
+    <!-- Flag Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flag-icons@6.11.0/css/flag-icons.min.css"
+    />
 
-    <!-- Schema: Organization -->
+    <!-- Elfsight Instagram Feed -->
+    <script
+      src="https://elfsightcdn.com/platform.js"
+      async
+    ></script>
+
+    <!-- Schema.org -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -86,20 +101,24 @@ const robotsContent = noIndex ? 'noindex, nofollow' : 'index, follow';
   </head>
 
   <body class:list={['min-h-screen flex flex-col', className]}>
-    <Header />
-
-    <main id="main-content" class="flex-1" tabindex="-1">
-      <slot />
-    </main>
-
-    <Footer />
-
-    <!-- Skip to content (accesibilidad) -->
+    <!-- Accesibilidad -->
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-dorado focus:text-carbon focus:font-display focus:text-sm focus:uppercase focus:tracking-widest"
     >
       Saltar al contenido
     </a>
+
+    <Header />
+
+    <main
+      id="main-content"
+      class="flex-1"
+      tabindex="-1"
+    >
+      <slot />
+    </main>
+
+    <Footer />
   </body>
 </html>

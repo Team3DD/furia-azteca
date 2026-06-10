@@ -12,13 +12,15 @@ interface MediaData {
 
 // ========== DATOS DE EJEMPLO (cámbialos según tu contenido real) ==========
 const furiaData: MediaData[] = [
-  { num: "01", badge: "Inicio",        alt: "Furia Azteca presentación", type: "image" },
-  { num: "02", badge: "Pasión",        alt: "Afición cantando",           type: "video" },
-  { num: "03", badge: "Equipo",        alt: "Foto grupal",                 type: "image" },
-  { num: "04", badge: "Gol",           alt: "Celebración de gol",          type: "video" },
-  { num: "05", badge: "Viaje",         alt: "Llegada a la sede",           type: "image" },
-  { num: "06", badge: "Entrenamiento", alt: "Práctica previa",             type: "image" },
-  { num: "07", badge: "Afición",       alt: "Marea verde en las gradas",   type: "video" },
+  { num: "01", badge: "Inicio",        alt: "Furia Azteca presentación",    type: "image" },
+  { num: "02", badge: "Pasión",        alt: "Afición cantando",             type: "video" },
+  { num: "03", badge: "Equipo",        alt: "Foto grupal",                  type: "image" },
+  { num: "04", badge: "Gol",           alt: "Celebración de gol",           type: "video" },
+  { num: "05", badge: "Viaje",         alt: "Llegada a la sede",            type: "image" },
+  { num: "06", badge: "Entrenamiento", alt: "Práctica previa",              type: "image" },
+  { num: "07", badge: "Afición",       alt: "Marea verde en las gradas",    type: "video" },
+  { num: "08", badge: "Equipo",        alt: "Vamos con todo",               type: "image" },
+  { num: "09", badge: "Unidos",        alt: "Unidos en la lucha",           type: "image" },
 ];
 
 const galerias = [
@@ -55,6 +57,10 @@ const VIDEO_PLACEHOLDER = "/video.mp4";
           <header class="relative z-10 text-center mb-12">
             <span class="section-label">Galería</span>
             <h2 class="section-title text-crema">{titulo}</h2>
+            <!-- Subtítulo agregado aquí -->
+            <p class="text-center text-crema/80 max-w-4xl mx-auto mt-4 text-lg sm:text-base font-light">
+              Hace 12 años buscan promover el deporte y la hermandad entre naciones jugando un torneo cada 4 años en el marco de la temporada más importante del deporte más hermoso del mundo. NO ESTAMOS AFILIADOS NI ASOCIADOS DE NINGUNA FORMA A LA FIFA WORLD CUP ™️ este es un torneo de fans seven or nine a side independiente creado por fans para fans.
+            </p>
           </header>
 
           <div class="relative z-10 gc-rows" data-direction={direction} style={`--speed: ${speed}s;`}>

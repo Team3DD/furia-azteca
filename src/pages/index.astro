@@ -1,34 +1,54 @@
 ---
 // src/pages/index.astro
+
 import MainLayout from '../layouts/MainLayout.astro';
 import HeroSection from '../components/sections/HeroSection.astro';
+import StatsStrip from '../components/sections/StatsStrip.astro';
+import FormSection from '../components/sections/FormSection.astro';
+import InstagramFeed from '../components/sections/InstagramFeed.astro';
+import GalleryCarousel from '../components/sections/GalleryCarousel.astro';
 import MundialesStrip from '../components/sections/MundialesStrip.astro';
 import HistoriaPreview from '../components/sections/HistoriaPreview.astro';
-import StatsStrip from '../components/sections/StatsStrip.astro';
-import NewsGrid from '../components/sections/NewsGrid.astro';
-import CTAUnete from '../components/sections/CTAUnete.astro';
-import FAQPreview from '../components/sections/FAQPreview.astro';
-import GalleryCarousel from '../components/sections/GalleryCarousel.astro';
+// import NewsGrid from '../components/sections/NewsGrid.astro';
 import AboutSection from '../components/sections/AboutSection.astro';
-import FormSection from '../components/sections/FormSection.astro';
-import Sponsors from '../components/sections/Sponsors.astro';
 import AboutGallery from '../components/sections/AboutGallery.astro';
+import CTAUnete from '../components/sections/CTAUnete.astro';
+import Sponsors from '../components/sections/Sponsors.astro';
+import FAQPreview from '../components/sections/FAQPreview.astro';
 ---
 
 <MainLayout
   title="Inicio"
-  description="Internationals Fans Cup — La Selección Mexicana de Aficionados. Rusia 2018, Qatar 2022 y rumbo al Mundial 2026."
+  description="Internationals Fans Cup — La Selección Mexicana de Aficionados. Rusia 2018, Qatar 2022 y México 2026."
 >
   <HeroSection />
+
   <StatsStrip />
+
   <FormSection />
+
+  <InstagramFeed
+    title="Síguenos en Instagram"
+    subtitle="Conoce nuestras actividades, eventos, convocatorias y la pasión de la Selección Mexicana de Aficionados."
+  />
+
   <GalleryCarousel />
+
   <MundialesStrip />
+
   <HistoriaPreview />
-  {/* <NewsGrid /> */}
+
+  {/*
+  <NewsGrid />
+  */}
+
   <AboutSection />
+
   <AboutGallery />
+
   <CTAUnete />
-  <Sponsors>
+
+  <Sponsors />
+
   <FAQPreview />
 </MainLayout>
